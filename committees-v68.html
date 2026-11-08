@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ku" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b203d"><title>لێژنە و پرۆژە | ZIATA Supabase</title>
+<link rel="stylesheet" href="ziata-auth.css?v=33"><link rel="stylesheet" href="ziata-design.css?v=61"><link rel="stylesheet" href="ziata-v68-committees.css?v=68">
+</head><body class="zi-v68-page">
+<main class="zi-v68-wrap">
+<header class="zi-v68-header"><div><small>ZIATA · Supabase</small><h1>سیستەمێ لێژنە و پرۆژان</h1><p>زانیاریێن لێژنە، فەرمانبەر و پرۆژان</p></div><a href="index.html">↩ داشبۆرد</a></header>
+<div class="zi-v68-toolbar"><input id="zi-v68-search" type="search" placeholder="گەریان ب ناڤ، لێژنە یان پرۆژە" aria-label="گەریان"/><select id="zi-v68-filter"><option value="">هەمی لێژنە</option></select><span id="zi-v68-count">—</span></div>
+<div class="zi-v68-status" id="zi-v68-message" role="status">زانیاری دهێنە بارکرن…</div>
+<section id="zi-v68-admin" hidden class="zi-v68-admin"><div class="zi-v68-admin-title"><h2>برێڤەبرنا تۆماران — ئەدمین</h2><p>زێدەکرن و دەستکاریکرن بتنێ بۆ ئەدمین</p></div>
+<form id="zi-v68-form"><input type="hidden" id="zi-v68-id"><label>ناڤێ فەرمانبەری<input id="zi-v68-name" required maxlength="250"></label><label>جۆرێ لێژنێ<input id="zi-v68-type" list="zi-v68-types" required maxlength="250"><datalist id="zi-v68-types"></datalist></label><label>پرۆژە / پرۆژەیێن گرێدای<textarea id="zi-v68-projects" rows="3"></textarea></label><label>تێبینی<textarea id="zi-v68-notes" rows="2"></textarea></label><div class="zi-v68-form-actions"><button type="submit" id="zi-v68-save">پاراستنا تۆمارێ</button><button type="button" id="zi-v68-cancel">پاقژکرنا فورمێ</button></div></form>
+<details class="zi-v68-import"><summary>ڤەگوهاستنا تۆماران ژ Google Sheets (CSV)</summary><p>Google Sheets → File → Download → Comma Separated Values (.csv). تەنێ تابێ Data هەلبژێرە. ستونێن A، B، C ژ شیتێ دەهێنە پاراستن.</p><input type="file" id="zi-v68-file" accept=".csv,text/csv"><button id="zi-v68-import" type="button">دەستپێکرنا Import ـێ</button><p id="zi-v68-import-status" role="status"></p><small>بەری Import ـێ Backup بپارێزە. Import بە ژمارا رێزا شیتێ دێ تۆمارێن دووبارە نەزێدەکەت؛ ئەگەر ئەو رێزە پێشتر هاتبی، دێ نویکەت.</small></details>
+</section>
+<div class="zi-v68-table-wrap"><table><thead><tr><th>فەرمانبەر</th><th>جۆرێ لێژنێ</th><th>پرۆژە</th><th id="zi-v68-action-title" hidden>کردار</th></tr></thead><tbody id="zi-v68-rows"></tbody></table></div>
+<div class="zi-v68-pages"><button id="zi-v68-prev" type="button">پێشتر</button><span id="zi-v68-page">—</span><button id="zi-v68-next" type="button">پاشتر</button></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="ziata-supabase-config.js"></script><script src="ziata-auth.js?v=67"></script><script src="ziata-v68-committees.js?v=68" defer></script>
+</body></html>
