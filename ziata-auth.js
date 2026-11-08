@@ -5,6 +5,26 @@ if(!cfg){console.error('Missing Supabase config');return;}
 const sb=window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 window.ziataSB=sb;
 
+/* V61: load the user-provided eagle image only after its asset is published.
+   Until then all existing logos remain visible; no broken-image placeholders. */
+(function installEmblem(){
+  const newLogo='/ZIATA/ziata-logo.png';
+  const oldLogos=/^(?:\\/ZIATA\\/)?(?:logo\\.(?:webp|png)|favicon\\.png)$/i;
+  const apply=()=>{
+    for(const img of document.querySelectorAll('img[src]')){
+      const src=img.getAttribute('src')||'';
+      if(oldLogos.test(src) && !img.dataset.ziEagle){
+        img.dataset.ziEagle='1';
+        img.src=newLogo;
+      }
+    }
+  };
+  const preload=new Image();
+  preload.onload=()=>{if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();};
+  preload.src=newLogo;
+})();
+
+
 window.ziataProxy = async (module, payload) => {
   if (!['transactions','engineers'].includes(module)) throw Error('Unsupported module');
   const { data: { session } } = await sb.auth.getSession();
