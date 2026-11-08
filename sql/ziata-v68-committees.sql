@@ -3,7 +3,7 @@
 create table if not exists public.ziata_committee_records (
  id bigint generated always as identity primary key,
  staff_name text not null check (char_length(btrim(staff_name)) between 1 and 250),
- committee_type text not null check (char_length(btrim(committee_type)) between 1 and 250),
+ committee_type text not null default '' check (char_length(committee_type) <= 250),
  projects_text text not null default '',
  notes text not null default '',
  legacy_sheet_row integer unique,
