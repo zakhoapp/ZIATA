@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ku" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Audit Log | ZIATA</title><meta name="theme-color" content="#0b203d">
+<link rel="stylesheet" href="ziata-theme.css?v=72"><link rel="stylesheet" href="ziata-stitch.css?v=71"><link rel="stylesheet" href="ziata-auth.css?v=33"><link rel="stylesheet" href="ziata-v34.css?v=34"><link rel="stylesheet" href="ziata-design.css?v=61">
+<link rel="stylesheet" href="ziata-v77-audit.css?v=77"></head>
+<body class="zi-v77-page"><main class="zi-v77-wrap">
+<header class="zi-v77-hero"><div><small>ZIATA · ADMIN ONLY</small><h1>مێژوویا گۆڕینان · Audit Log</h1><p>کێ، کەنگی، چ گۆڕی؟ تۆمارێن راستەوخۆ ژ Supabase</p></div><a href="admin.html">↩ برێڤەبرنا فەرمانبەران</a></header>
+<div id="zi-v77-status" role="status" class="zi-v77-status">زانیاری دهێنە بارکرن…</div>
+<section id="zi-v77-private" hidden>
+<div class="zi-v77-filters"><label>سیستەم<select id="zi-v77-system"><option value="">هەمی سیستەم</option></select></label><label>کردار<select id="zi-v77-op"><option value="">هەمی کردار</option><option value="INSERT">زێدەکرن</option><option value="UPDATE">دەستکاریکرن</option><option value="DELETE">ژێبرن</option></select></label><label>گەریان ب ID یا کەسی<input id="zi-v77-search" type="search" placeholder="ناڤ، ID، یان ئیمێل"></label><button type="button" id="zi-v77-refresh">نووکرن <span aria-hidden="true">↻</span></button></div>
+<div class="zi-v77-info"><span id="zi-v77-total">—</span><small>رێزەکا گۆڕینێ هەلبژێرە بۆ دیتنا وردەکاریان</small></div>
+<div class="zi-v77-scroll"><table><thead><tr><th>رێکەفت و دەم</th><th>سیستەم</th><th>کردار</th><th>کەسێ گۆڕی</th><th>تۆمار</th><th>وردەکاری</th></tr></thead><tbody id="zi-v77-rows"></tbody></table></div>
+<div class="zi-v77-pagination"><button type="button" id="zi-v77-prev">پێشتر</button><span id="zi-v77-page">—</span><button type="button" id="zi-v77-next">پاشتر</button></div>
+<details class="zi-v77-notice"><summary>سنورێن ئەڤ تۆمارکرنێ</summary><p>ئەم تۆماران ژ Supabase Database ـێ دئینین. بتنێ گۆڕینێن پشتی چالاککرنا SQL ـا V77 دهێنە تۆمارکرن. سیستەمێن گرێدای Google Apps Script تا گۆڕینێن وان ل سێرڤەرێ بهێنە گرێدان، د ڤێ تۆمارێ دا نەهەمی کردارێن وان دیارن. هەروەسا داتایێن نهێنی و هەستیار هاتینە سنوردارکرن.</p></details>
+</section>
+</main>
+<script src="ziata-shell.js?v=73"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="ziata-supabase-config.js"></script><script src="ziata-auth.js?v=67"></script><script src="ziata-v77-audit.js?v=77" defer></script>
+</body></html>
