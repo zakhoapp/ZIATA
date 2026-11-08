@@ -4,7 +4,7 @@ function setupTopBell(){
  const toggle=$('zi-notice-toggle'),popup=$('zi-notice-popover'),close=$('zi-notice-close');
  if(!toggle||!popup||toggle.dataset.bound)return;
  toggle.dataset.bound='1';
- const count=()=>{const a=Number(($('zi-v58-unread')?.textContent||'').match(/\\d+/)?.[0]||0);
+ const count=()=>{const a=Number(($('zi-v58-unread')?.textContent||'').match(/[0-9]+/)?.[0]||0);
    const b=Number($('zi-v55-count')?.textContent||0);
    const n=Math.max(0,a)+Math.max(0,b),badge=$('zi-notice-badge');
    if(badge){badge.textContent=n>99?'99+':String(n);badge.hidden=n===0;}
