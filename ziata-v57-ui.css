@@ -73,3 +73,16 @@ html body.zi-modern-page *,html body.zi-modern-page input,html body.zi-modern-pa
 .zi-modern-page .zi-admin-item button[data-action=approved]{background:#166b55!important}
 .zi-modern-page .zi-admin-item button[data-action=rejected]{background:#a63e43!important}
 .zi-modern-page .zi-admin-item button[data-action=suspended]{background:#6b7280!important}
+
+/* V64 — Admin employee identity cards */
+.zi-modern-page .zi-employee-summary{display:flex;align-items:center;gap:17px;padding:3px 0 14px;border-bottom:1px solid #edf1f5;min-width:0}
+.zi-modern-page .zi-employee-avatar{width:76px!important;height:76px!important;min-width:76px!important;flex:0 0 76px;display:grid;place-items:center;overflow:hidden;border-radius:19px;background:linear-gradient(140deg,#eaf0f6,#fff5d8);border:2px solid #e4ca7f;color:#0b203d;font-size:30px}
+.zi-modern-page .zi-employee-avatar img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:cover!important;aspect-ratio:1!important}
+.zi-modern-page .zi-employee-info{min-width:0;flex:1}
+.zi-modern-page .zi-employee-info h3{margin:0 0 6px;font-size:17px;line-height:1.6;color:#0b203d;overflow-wrap:anywhere}
+.zi-modern-page .zi-employee-admin{vertical-align:middle;background:#fff3cb;color:#775309;border:1px solid #e7ca73;border-radius:999px;padding:2px 8px;font-size:10px;font-weight:800}
+.zi-modern-page .zi-employee-metadata{display:flex;flex-wrap:wrap;gap:7px 12px;margin:0 0 7px;font-size:12px;color:#536981}
+.zi-modern-page .zi-employee-metadata span{display:inline-flex;gap:5px;align-items:center;background:#f3f6f9;border-radius:8px;padding:4px 8px;max-width:100%;overflow-wrap:anywhere}
+.zi-modern-page .zi-employee-metadata b{color:#223c55}
+.zi-modern-page .zi-employee-info small{margin:0!important;font-size:10px;color:#8593a1;word-break:break-all}
+@media(max-width:600px){.zi-modern-page .zi-employee-summary{align-items:flex-start;gap:12px}.zi-modern-page .zi-employee-avatar{width:60px!important;height:60px!important;min-width:60px!important;flex-basis:60px;border-radius:15px}.zi-modern-page .zi-employee-metadata{display:grid;gap:5px}.zi-modern-page .zi-employee-info h3{font-size:15px}}
