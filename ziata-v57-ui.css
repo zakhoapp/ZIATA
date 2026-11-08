@@ -57,3 +57,19 @@ html body.zi-modern-page *,html body.zi-modern-page input,html body.zi-modern-pa
 .zi-modern-page .zi-v58-panel{background:#fff;border:1px solid #dfe7ee;border-radius:18px;padding:24px;box-shadow:0 10px 30px #10243a0a}
 .zi-modern-page .zi-v58-panel h2{color:#10243a;font-size:18px;font-weight:800}
 .zi-modern-page .zi-v58-panel button{border-radius:11px;font-weight:700}
+
+/* V61 — profile and employee-management brand consistency */
+.zi-modern-page{
+ --ui-navy:#0b203d;--ui-gold:#d8a523;--ui-ink:#0e2644;
+ --ui-muted:#66778b;--ui-line:#dce4ec;--ui-bg:#f5f7fa;
+ background:var(--ui-bg)!important;
+}
+.zi-modern-page .zi-page-hero{background:linear-gradient(118deg,#0b203d,#183c60)!important;border:1px solid #d8a523}
+.zi-modern-page .zi-eyebrow{color:#f5d77d!important}
+.zi-modern-page .zi-ui-card,.zi-modern-page .zi-admin-item{border-color:#dce4ec!important}
+.zi-modern-page .zi-identity .zi-avatar{border-color:#fff2cd;box-shadow:0 0 0 1px #d8a523}
+.zi-modern-page .zi-panel button:not(.zi-eye){background:#0b203d!important}
+.zi-modern-page input:focus,.zi-modern-page select:focus,.zi-modern-page textarea:focus{border-color:#d8a523!important;box-shadow:0 0 0 3px #d8a52326!important}
+.zi-modern-page .zi-admin-item button[data-action=approved]{background:#166b55!important}
+.zi-modern-page .zi-admin-item button[data-action=rejected]{background:#a63e43!important}
+.zi-modern-page .zi-admin-item button[data-action=suspended]{background:#6b7280!important}
