@@ -14,3 +14,12 @@
 .zi-v68-page .zi-v68-choice.selected{background:#0b203d!important;color:#fff!important;border-color:#d8a523!important}
 .zi-v68-admin label small{color:#66788d;font-weight:400;line-height:1.5}
 .zi-v69-committee-tag{display:inline-block;background:#edf3fa;color:#123859;border:1px solid #cfdeec;border-radius:999px;padding:5px 10px;margin:3px;font-size:11px;font-weight:700;white-space:normal;line-height:1.55}
+
+/* V73: Committees share ZIATA's fixed sidebar, top bar and mobile drawer. */
+html body.zi-v68-page{min-width:0;overflow-x:hidden}
+html body.zi-v68-page .zi-page-intro{display:none!important}
+html body.zi-v68-page .zi-v68-wrap{width:min(100%,1240px);margin:0 auto;padding-top:24px}
+html body.zi-v68-page .zi-v68-header{margin-top:0}
+html body.zi-v68-page .zi-appbar button.zi-menu-toggle{flex-shrink:0}
+@media(min-width:1120px){html body.zi-v68-page .zi-v68-wrap{width:calc(100% - 20px)}}
+@media(max-width:760px){html body.zi-v68-page .zi-v68-wrap{padding:16px 12px 90px}}
