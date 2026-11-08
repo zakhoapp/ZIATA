@@ -23,29 +23,85 @@ function csvParse(input) {
   if(field!==''||row.length){row.push(field);result.push(row)}
   return result;
 }
-function distinctTypes(){const types=[...new Set(all.map(x=>x.committee_type).filter(Boolean))].sort((a,b)=>a.localeCompare(b));$('zi-v68-filter').replaceChildren(new Option('هەمی لێژنە',''),...types.map(x=>new Option(x,x)));$('zi-v68-types').replaceChildren(...types.map(x=>{const el=document.createElement('option');el.value=x;return el}));}
+function splitTypes(value){
+ return [...new Set(String(value||'').split(/\r?\n|؛|;/).map(x=>x.trim()).filter(Boolean))];
+}
+function distinctTypes(){
+ const types=[...new Set(all.flatMap(x=>splitTypes(x.committee_type)))].sort((a,b)=>a.localeCompare(b));
+ const current=$('zi-v68-filter').value;
+ $('zi-v68-filter').replaceChildren(new Option('هەمی لێژنە',''),...types.map(x=>new Option(x,x)));
+ if(types.includes(current))$('zi-v68-filter').value=current;
+ const choices=$('zi-v68-choices');choices.replaceChildren();
+ for(const type of types){
+  const b=document.createElement('button');b.type='button';b.className='zi-v68-choice';b.textContent='+ '+type;
+  b.setAttribute('aria-pressed',String(splitTypes($('zi-v68-type').value).includes(type)));
+  b.onclick=()=>{
+   const set=new Set(splitTypes($('zi-v68-type').value));
+   if(set.has(type))set.delete(type);else set.add(type);
+   $('zi-v68-type').value=[...set].join('\n');
+   updateChoices();
+  };
+  choices.appendChild(b);
+ }
+ updateChoices();
+}
+function updateChoices(){
+ const set=new Set(splitTypes($('zi-v68-type').value));
+ for(const b of $('zi-v68-choices').querySelectorAll('button')){
+   const type=b.textContent.slice(2);
+   const selected=set.has(type);
+   b.classList.toggle('selected',selected);
+   b.setAttribute('aria-pressed',String(selected));
+   b.textContent=(selected?'✓ ':'+ ')+type;
+ }
+}
+function groupRows(rows){
+ const groups=new Map();
+ for(const row of rows){
+  const key=row.staff_name.trim().replace(/\s+/g,' ').toLocaleLowerCase();
+  if(!groups.has(key))groups.set(key,{staff_name:row.staff_name,entries:[],committees:new Set(),projects:new Set()});
+  const group=groups.get(key);group.entries.push(row);
+  for(const type of splitTypes(row.committee_type))group.committees.add(type);
+  if(row.projects_text?.trim())group.projects.add(row.projects_text.trim());
+ }
+ return [...groups.values()];
+}
 function view(){
  const query=$('zi-v68-search').value.trim().toLowerCase(),type=$('zi-v68-filter').value;
- filtered=all.filter(x=>(!type||x.committee_type===type)&&(!query||[x.staff_name,x.committee_type,x.projects_text,x.notes].some(v=>String(v||'').toLowerCase().includes(query))));
+ filtered=groupRows(all).filter(x=>(!type||x.committees.has(type))&&(!query||[x.staff_name,...x.committees,...x.projects].some(v=>String(v||'').toLowerCase().includes(query))));
  page=Math.min(page,Math.max(0,Math.ceil(filtered.length/PAGE_SIZE)-1));
  const rows=filtered.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE);
  const frag=document.createDocumentFragment();
- for(const item of rows){
+ for(const group of rows){
   const tr=document.createElement('tr');
-  for(const col of ['staff_name','committee_type','projects_text']){
-   const td=document.createElement('td');td.textContent=item[col]||'—';tr.appendChild(td);
+  const name=document.createElement('td');name.textContent=group.staff_name;tr.appendChild(name);
+  const types=document.createElement('td');
+  if(!group.committees.size)types.textContent='—';
+  for(const type of group.committees){
+   const badge=document.createElement('span');badge.className='zi-v69-committee-tag';badge.textContent=type;types.appendChild(badge);
   }
+  tr.appendChild(types);
+  const projects=document.createElement('td');projects.textContent=[...group.projects].join('\n')||'—';tr.appendChild(projects);
   if(admin){
-   const td=document.createElement('td');const edit=document.createElement('button');edit.type='button';edit.textContent='دەستکاری';edit.onclick=()=>editItem(item);
-   const del=document.createElement('button');del.type='button';del.textContent='ژێبرن';del.className='zi-v68-danger';del.onclick=()=>deleteItem(item);
-   td.append(edit,del);tr.appendChild(td);
+   const td=document.createElement('td');const edit=document.createElement('button');edit.type='button';edit.textContent='دەستکاریکرنا لێژنان';edit.onclick=()=>editGroup(group);
+   td.append(edit);tr.appendChild(td);
   }
   frag.appendChild(tr);
  }
  $('zi-v68-rows').replaceChildren(frag);
- $('zi-v68-count').textContent=filtered.length+' تۆمار';
+ $('zi-v68-count').textContent=filtered.length+' فەرمانبەر · '+all.length+' تۆمار';
  $('zi-v68-page').textContent=(filtered.length? page+1:0)+' / '+Math.ceil(filtered.length/PAGE_SIZE);
  $('zi-v68-prev').disabled=page===0;$('zi-v68-next').disabled=(page+1)*PAGE_SIZE>=filtered.length;
+}
+function editGroup(group){
+ // Edit a single membership record. Existing separate records are preserved.
+ if(group.entries.length===1){editItem(group.entries[0]);return;}
+ const list=group.entries.map((e,i)=>(i+1)+'. '+(splitTypes(e.committee_type).join(' / ')||'بێ ناڤێ لێژنێ')).join('\n');
+ const answer=prompt('ئەڤ فەرمانبەرە د '+group.entries.length+' تۆماران دا یە. ژمارا تۆمارێ هەلبژێرە دا وێ دەستکاری بکەی:\n'+list,'1');
+ if(answer===null)return;
+ const n=Number(answer);
+ if(!Number.isInteger(n)||n<1||n>group.entries.length){message('ژمارە نەدروستە',true);return;}
+ editItem(group.entries[n-1]);
 }
 async function loadAll(){
  message('زانیاری دهێنە بارکرن…');
@@ -61,8 +117,8 @@ async function loadAll(){
  all=rows;distinctTypes();view();
  message(all.length+' تۆمار ژ Supabase هاتنە بارکرن.');
 }
-function clearForm(){$('zi-v68-form').reset();$('zi-v68-id').value='';$('zi-v68-save').textContent='پاراستنا تۆمارێ';}
-function editItem(item){$('zi-v68-id').value=item.id;$('zi-v68-name').value=item.staff_name||'';$('zi-v68-type').value=item.committee_type||'';$('zi-v68-projects').value=item.projects_text||'';$('zi-v68-notes').value=item.notes||'';$('zi-v68-form').scrollIntoView({behavior:'smooth',block:'start'});}
+function clearForm(){$('zi-v68-form').reset();$('zi-v68-id').value='';$('zi-v68-save').textContent='پاراستنا تۆمارێ';updateChoices();}
+function editItem(item){$('zi-v68-id').value=item.id;$('zi-v68-name').value=item.staff_name||'';$('zi-v68-type').value=splitTypes(item.committee_type).join('\n');updateChoices();$('zi-v68-projects').value=item.projects_text||'';$('zi-v68-notes').value=item.notes||'';$('zi-v68-form').scrollIntoView({behavior:'smooth',block:'start'});}
 async function deleteItem(item){
  if(!admin||!confirm('دڵنیایی ژ ژێبرنا تۆمارێ '+item.staff_name+'؟'))return;
  const {error}=await sb.from(TABLE).delete().eq('id',item.id);
@@ -71,8 +127,9 @@ async function deleteItem(item){
 async function save(e){
  e.preventDefault();if(!admin)return;
  const button=$('zi-v68-save');button.disabled=true;
- const payload={staff_name:$('zi-v68-name').value.trim(),committee_type:$('zi-v68-type').value.trim(),projects_text:$('zi-v68-projects').value.trim(),notes:$('zi-v68-notes').value.trim()};
+ const payload={staff_name:$('zi-v68-name').value.trim(),committee_type:splitTypes($('zi-v68-type').value).join('\n'),projects_text:$('zi-v68-projects').value.trim(),notes:$('zi-v68-notes').value.trim()};
  try{
+  if(!payload.committee_type||payload.committee_type.length>250)throw Error('ناڤێ لێژنان پێدڤییە و کۆی درێژاهیا وان نابیت ژ 250 پیتان پتر بیت.');
   const id=$('zi-v68-id').value;
   const {error}=id?await sb.from(TABLE).update(payload).eq('id',id):await sb.from(TABLE).insert(payload);
   if(error)throw error;clearForm();await loadAll();
@@ -115,7 +172,7 @@ async function init(){
  $('zi-v68-search').addEventListener('input',()=>{page=0;view()});
  $('zi-v68-filter').addEventListener('change',()=>{page=0;view()});
  $('zi-v68-prev').onclick=()=>{page--;view()};$('zi-v68-next').onclick=()=>{page++;view()};
- $('zi-v68-form').addEventListener('submit',save);$('zi-v68-cancel').onclick=clearForm;$('zi-v68-import').onclick=importCsv;
+ $('zi-v68-type').addEventListener('input',updateChoices);$('zi-v68-form').addEventListener('submit',save);$('zi-v68-cancel').onclick=clearForm;$('zi-v68-import').onclick=importCsv;
  try{await loadAll()}catch(e){message('Supabase ـێ نەشیا لیستێ بار بکەت. SQL ـا V68 پێدڤییە ل Supabase بهێتە Run کرن. '+e.message,true);}
 }
 window.addEventListener('ziata-ready',init,{once:true});
