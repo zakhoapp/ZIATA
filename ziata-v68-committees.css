@@ -6,3 +6,11 @@
 .zi-v68-page .zi-profile-standalone .zi-avatar-small img{width:38px!important;height:38px!important;max-width:38px!important;max-height:38px!important;object-fit:cover!important;border-radius:50%!important;overflow:hidden}
 .zi-v68-page .zi-profile-standalone img{max-width:38px!important;max-height:38px!important}
 .zi-v68-page .zi-profile-standalone [hidden]{display:none!important}
+
+/* V69 · Multi-committee membership; one employee in list, many committee badges */
+.zi-v68-committee-choices{display:flex;flex-wrap:wrap;gap:7px;max-height:185px;overflow:auto;margin-top:7px;padding:9px;border:1px solid #e4e9ef;border-radius:10px;background:#f8fafc}
+.zi-v68-committee-choices:empty{display:none}
+.zi-v68-page .zi-v68-choice{font-size:11px!important;font-weight:700!important;color:#204360!important;background:white!important;border:1px solid #d6dfe8!important;border-radius:999px!important;padding:6px 10px!important;line-height:1.5}
+.zi-v68-page .zi-v68-choice.selected{background:#0b203d!important;color:#fff!important;border-color:#d8a523!important}
+.zi-v68-admin label small{color:#66788d;font-weight:400;line-height:1.5}
+.zi-v69-committee-tag{display:inline-block;background:#edf3fa;color:#123859;border:1px solid #cfdeec;border-radius:999px;padding:5px 10px;margin:3px;font-size:11px;font-weight:700;white-space:normal;line-height:1.55}
