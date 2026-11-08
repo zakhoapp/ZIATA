@@ -9,11 +9,11 @@ window.ziataSB=sb;
    Until then all existing logos remain visible; no broken-image placeholders. */
 (function installEmblem(){
   const newLogo='/ZIATA/ziata-logo.png';
-  const oldLogos=/^(?:\\/ZIATA\\/)?(?:logo\\.(?:webp|png)|favicon\\.png)$/i;
+  const oldLogos=new Set(['logo.webp','logo.png','favicon.png']);
   const apply=()=>{
     for(const img of document.querySelectorAll('img[src]')){
       const src=img.getAttribute('src')||'';
-      if(oldLogos.test(src) && !img.dataset.ziEagle){
+      if(oldLogos.has(src.split('/').pop().split('?')[0]) && !img.dataset.ziEagle){
         img.dataset.ziEagle='1';
         img.src=newLogo;
       }
