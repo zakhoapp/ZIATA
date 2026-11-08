@@ -41,17 +41,17 @@ begin
   select
     (select count(distinct pg_catalog.lower(pg_catalog.btrim(v)))::integer
        from matched m cross join lateral
-       pg_catalog.regexp_split_to_table(pg_catalog.coalesce(m.committee_type,''), E'[\\n\\r;؛]+') v
+       pg_catalog.regexp_split_to_table(coalesce(m.committee_type,''), E'[\\n\\r;؛]+') v
       where pg_catalog.btrim(v) <> ''),
     (select count(distinct pg_catalog.lower(pg_catalog.btrim(v)))::integer
        from matched m cross join lateral
-       pg_catalog.regexp_split_to_table(pg_catalog.coalesce(m.projects_text,''), E'[\\n\\r]+') v
+       pg_catalog.regexp_split_to_table(coalesce(m.projects_text,''), E'[\\n\\r]+') v
       where pg_catalog.btrim(v) <> '')
   into committee_count, project_count;
 
   return pg_catalog.jsonb_build_object(
-    'committee_count', pg_catalog.coalesce(committee_count,0),
-    'project_count', pg_catalog.coalesce(project_count,0),
+    'committee_count', coalesce(committee_count,0),
+    'project_count', coalesce(project_count,0),
     'matched_records', matched_records
   );
 end;
