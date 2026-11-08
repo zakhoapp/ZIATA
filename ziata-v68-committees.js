@@ -126,6 +126,7 @@ async function deleteItem(item){
 }
 async function save(e){
  e.preventDefault();if(!admin)return;
+ if($('zi-v80-employee').disabled){message('ناشێت تۆمار بهێتە گۆڕین هەتا لیستا ناسنامەیێن حسابان بار نەبیت.',true);return;}
  const button=$('zi-v68-save');button.disabled=true;
  const payload={staff_name:$('zi-v68-name').value.trim(),committee_type:splitTypes($('zi-v68-type').value).join('\n'),projects_text:$('zi-v68-projects').value.trim(),notes:$('zi-v68-notes').value.trim(),employee_id:$('zi-v80-employee').value||null};
  try{
@@ -136,7 +137,7 @@ async function save(e){
  }catch(e){message('نەشیا تۆمار بکەت: '+e.message,true)}finally{button.disabled=false}
 }
 async function importCsv(){
- if(!admin)return;
+ if(!admin||$('zi-v80-employee').disabled)return;
  const file=$('zi-v68-file').files?.[0];if(!file){$('zi-v68-import-status').textContent='CSV هەلبژێرە';return}
  if(!confirm('دا داتایێن CSV بۆ Supabase هێنە Import کرن؟ رێزێن هەمان ژمارە دێ نوو بن.'))return;
  const button=$('zi-v68-import'),status=$('zi-v68-import-status');button.disabled=true;
