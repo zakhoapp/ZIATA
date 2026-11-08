@@ -1,0 +1,14 @@
+/* V79: private personal assignment counters */
+#zi-v79-my-work[hidden]{display:none!important}
+.zi-v79-my-work{margin:18px 0 20px;padding:19px;background:#fff;border:1px solid #e1e8f0;border-radius:16px;box-shadow:0 5px 18px #0b203d09}
+.zi-v79-my-work-head{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:13px}
+.zi-v79-my-work-head h2{font-size:18px;font-weight:800;color:#0b203d;margin:0}
+.zi-v79-my-work-head small{font-size:11px;color:#6c7f91}
+.zi-v79-counters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.zi-v79-counter{display:flex;gap:15px;align-items:center;background:#f6f8fc;padding:16px;border:1px solid #e3eaf1;border-radius:12px}
+.zi-v79-counter .zi-v79-icon{width:45px;height:45px;display:grid;place-items:center;background:#0b203d;color:#e8c568;border-radius:11px;font-size:24px;flex-shrink:0}
+.zi-v79-counter strong{display:block;color:#0b203d;font-size:28px;line-height:1.2}
+.zi-v79-counter span{font-size:13px;font-weight:700;color:#4c647b}
+.zi-v79-my-work a{display:inline-block;margin-top:12px;color:#0b4072;text-decoration:underline;text-underline-offset:3px;font-weight:700;font-size:12px}
+#zi-v79-status{color:#73859a;font-size:12px;margin:13px 0 0;line-height:1.6}
+@media(max-width:570px){.zi-v79-my-work{padding:13px}.zi-v79-counters{gap:8px}.zi-v79-counter{gap:9px;padding:12px}.zi-v79-counter .zi-v79-icon{width:34px;height:34px;font-size:18px}.zi-v79-counter strong{font-size:25px}.zi-v79-counter span{font-size:11px}.zi-v79-my-work-head{align-items:flex-start;flex-direction:column}}
