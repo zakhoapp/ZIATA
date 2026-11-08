@@ -26,3 +26,7 @@ html body.zi-v68-page .zi-appbar button.zi-menu-toggle{flex-shrink:0}
 
 /* V78 professional profile links */
 .zi-v78-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.zi-v78-profile-link{color:#144b7e;font-weight:800;text-decoration:underline;text-underline-offset:3px}.zi-v78-profile-link:hover{color:#9a710e}@media(max-width:640px){.zi-v78-actions{width:100%}.zi-v78-actions a{font-size:12px}}
+
+/* V80 UUID account binding */
+.zi-v80-linked{display:block;margin-top:6px;font-size:10px;color:#68798b;white-space:normal}
+#zi-v80-employee{width:100%;background:#f6f9fc;border-color:#cbdbe8}
