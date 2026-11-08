@@ -33,6 +33,8 @@ if(/(?:^|\s)(?:eng\.?\s*)?heja(?:\s|$)/i.test(normalized)||/هێژا|هەژا|ه
  greeting='بەرێز جێگرێ سەرپەرشتیاری ('+name+')';
 }else if(/(?:^|\s)(?:eng\.?\s*)?salah(?:\s|$)/i.test(normalized)||/سەلاح|صلاح/.test(name)){
  greeting='بەرێز رێڤەبەرێ ئەندازا پرۆژان ('+name+')';
+}else if(/(?:^|\s)(?:eng\.?\s*)?jalal(?:\s|$)/i.test(normalized)||/جەلال|جلال/.test(name)){
+ greeting='بەرێز رێڤەبەرێ پلاندانان ('+name+')';
 }else if(department){
  const cleaned=department.replace(/^رێڤەبەرێ\s*/,'').replace(/^بەڕێوەبەرێ\s*/,'').trim();
  if(profile.is_admin||/رێڤەبەر|بەڕێوەبەر|مدير|director|manager/i.test(department)){
