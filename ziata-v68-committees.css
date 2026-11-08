@@ -23,3 +23,6 @@ html body.zi-v68-page .zi-v68-header{margin-top:0}
 html body.zi-v68-page .zi-appbar button.zi-menu-toggle{flex-shrink:0}
 @media(min-width:1120px){html body.zi-v68-page .zi-v68-wrap{width:calc(100% - 20px)}}
 @media(max-width:760px){html body.zi-v68-page .zi-v68-wrap{padding:16px 12px 90px}}
+
+/* V78 professional profile links */
+.zi-v78-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.zi-v78-profile-link{color:#144b7e;font-weight:800;text-decoration:underline;text-underline-offset:3px}.zi-v78-profile-link:hover{color:#9a710e}@media(max-width:640px){.zi-v78-actions{width:100%}.zi-v78-actions a{font-size:12px}}
