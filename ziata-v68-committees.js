@@ -74,7 +74,7 @@ function view(){
  const frag=document.createDocumentFragment();
  for(const group of rows){
   const tr=document.createElement('tr');
-  const name=document.createElement('td');name.textContent=group.staff_name;tr.appendChild(name);
+  const name=document.createElement('td');const profileLink=document.createElement('a');profileLink.href='engineer-profiles.html?name='+encodeURIComponent(group.staff_name);profileLink.className='zi-v78-profile-link';profileLink.textContent=group.staff_name;profileLink.title='دیتنا پروفایلێ پیشەیی';name.appendChild(profileLink);tr.appendChild(name);
   const types=document.createElement('td');
   if(!group.committees.size)types.textContent='—';
   for(const type of group.committees){
