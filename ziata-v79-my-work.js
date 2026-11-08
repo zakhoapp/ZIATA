@@ -14,19 +14,19 @@ async function init(){
   const {data,error}=await window.ziataSB.rpc('ziata_my_work_summary');
   if(error)throw error;
   const committees=Number(data?.committee_count),projects=Number(data?.project_count),records=Number(data?.matched_records);
-  if(!Number.isFinite(committees)||!Number.isFinite(projects)||!Number.isFinite(records))throw Error('Server data unavailable');
+  if(!Number.isFinite(committees)||!Number.isFinite(projects)||!Number.isFinite(records)||data?.identity_source!=='employee_id')throw Error('UUID-based summary function V80 not installed');
   $('zi-v79-committees').textContent=String(committees);
   $('zi-v79-projects').textContent=String(projects);
   if(records===0){
-   msg.textContent='هیچ تۆمارەک ب ناڤێ پروفایلێ تە نەهاتە دیتن. ئەگەر ناڤ جودا بیت، ئەدمین پێدڤییە وێ راست بکەت.';
+   msg.textContent='تۆمارێن تە هێشتا ب ناسنامەیا UUID یا حسابێ تە نەهاتینە گرێدان. ئەدمین د سیستەمێ لێژنان دا حسابێ تە گرێبدەت.';
   }else{
-   msg.textContent='ژ '+records+' تۆمارێن گرێدای ناڤێ تە ل Supabase هاتنە حسابکرن.';
+   msg.textContent='ژ '+records+' تۆمارێن گرێدای ناسنامەیا حسابێ تە (UUID) ل Supabase هاتنە حسابکرن.';
   }
  }catch(e){
   box.hidden=false;
   $('zi-v79-committees').textContent='—';
   $('zi-v79-projects').textContent='—';
-  msg.textContent='ژمارە هێشتا بەردەست نینن. SQL ـا V79 پێدڤییە ل Supabase جێبەجێ ببیت.';
+  msg.textContent='ژمارە هێشتا بەردەست نینن. SQL ـا V80 پێدڤییە ل Supabase جێبەجێ ببیت.';
   console.warn('ZIATA personal work summary unavailable',e);
  }
 }
