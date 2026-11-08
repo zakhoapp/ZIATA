@@ -46,3 +46,28 @@
   .zi-v58-page .zi-profile-standalone{margin-bottom:8px}
   .zi-v58-page .zi-profile-trigger{max-width:100%}
 }
+
+/* V60 — unified compact top notification bell. */
+.zi-dashboard{position:relative}
+.zi-notice-toolbar{position:relative;display:flex;justify-content:flex-start;margin:0 0 15px;z-index:35;font-family:Vazirmatn,Tahoma,sans-serif}
+.zi-notice-toggle{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:9px 15px;border:1px solid #d9e2eb;border-radius:14px;background:#fff;color:#10243a;box-shadow:0 5px 18px #10243a0c;font-family:inherit;font-weight:800;cursor:pointer;position:relative}
+.zi-notice-toggle:hover,.zi-notice-toggle[aria-expanded="true"]{border-color:#c8a466;background:#fbfaf7}
+.zi-notice-icon{font-size:20px}
+.zi-notice-button-label{font-size:13px}
+.zi-notice-badge:not([hidden]){display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 5px;border-radius:20px;background:#b13740;color:#fff;font-size:11px;font-weight:800;line-height:1}
+.zi-notice-badge[hidden],.zi-notice-popover[hidden]{display:none!important}
+.zi-notice-popover{position:absolute;top:calc(100% + 10px);right:0;width:min(440px,calc(100vw - 32px));max-height:min(72vh,650px);overflow:auto;background:#fff;border:1px solid #dfe7ef;border-radius:19px;box-shadow:0 20px 56px #10243a25;z-index:50;overscroll-behavior:contain}
+.zi-notice-popover-title{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;padding:14px 17px;background:#10243a;color:#fff}
+.zi-notice-popover-title strong{font-size:16px}
+.zi-notice-popover-title button{background:#ffffff1e;color:#fff;border:0;border-radius:9px;padding:5px 10px;cursor:pointer}
+.zi-notice-popover #zi-v55-list{display:block!important;margin:0;padding:14px 15px 6px;background:#fff;border-bottom:1px solid #e5edf3}
+.zi-notice-popover #zi-v55-list h3{margin:0 0 7px;font-size:14px;color:#10243a}
+.zi-notice-popover #zi-v55-notices{max-height:none;overflow:visible}
+.zi-notice-popover .zi-v55-entry{display:block;padding:10px 0;border-bottom:1px solid #edf1f5;text-decoration:none}
+.zi-notice-popover .zi-v58-panel{margin:0;padding:12px 15px 16px;border:0;box-shadow:none;border-radius:0}
+.zi-notice-popover .zi-v58-head h2{font-size:14px;margin:0}
+.zi-notice-popover .zi-v58-count{font-size:11px;white-space:nowrap}
+.zi-notice-popover .zi-v58-entry{padding:11px 4px}
+.zi-notice-popover #zi-v58-list{font-size:13px}
+#zi-v55-bell[hidden]{display:none!important}
+@media(max-width:600px){.zi-notice-toolbar{margin-bottom:10px}.zi-notice-popover{max-height:75vh}.zi-notice-toggle{min-height:42px;padding:8px 12px}}
