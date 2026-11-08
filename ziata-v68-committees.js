@@ -2,7 +2,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const TABLE = 'ziata_committee_records';
-let sb, admin = false, page = 0, all = [], filtered = [];
+let sb, admin = false, page = 0, all = [], filtered = [], initStarted = false;
 const PAGE_SIZE = 40;
 function message(s, error=false) {const el=$('zi-v68-message');el.textContent=s;el.classList.toggle('zi-v68-error',error);}
 function csvParse(input) {
@@ -94,7 +94,7 @@ async function importCsv(){
   const items=records.slice(1).map((r,i)=>({
     legacy_sheet_row:i+2,staff_name:String(r[0]||'').trim(),
     committee_type:String(r[1]||'').trim(),projects_text:String(r[2]||'').trim()
-  })).filter(x=>x.staff_name&&x.committee_type);
+  })).filter(x=>x.staff_name);
   const unique=new Map(items.map(x=>[x.legacy_sheet_row,x]));
   let done=0;
   for(let i=0;i<items.length;i+=75){
@@ -107,7 +107,7 @@ async function importCsv(){
  }catch(e){status.textContent='خەلەتی: '+e.message}finally{button.disabled=false}
 }
 async function init(){
- if(!window.ziataContext||!window.ziataSB)return;
+ if(initStarted||!window.ziataContext||!window.ziataSB)return;initStarted=true;
  let ctx;try{ctx=await window.ziataContext()}catch(e){message(e.message,true);return}
  if(!ctx.session?.user||!ctx.allowed?.includes('committees')){message('دەستهەلاتا دیتنا لێژنان نینە.',true);return}
  admin=!!ctx.profile?.is_admin;sb=window.ziataSB;
