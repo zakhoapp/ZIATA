@@ -64,9 +64,9 @@ begin
   newj := newj - array['password','password_hash','token','access_token','refresh_token','secret','api_key','avatar_path','phone','email','attachments','attachment','file_url','document_url','medical_notes','notes'];
  end if;
  select pg_catalog.array_agg(k order by k) into changed
- from (select pg_catalog.jsonb_object_keys(pg_catalog.coalesce(oldj,'{}'::jsonb)||pg_catalog.coalesce(newj,'{}'::jsonb)) as k) names
+ from (select pg_catalog.jsonb_object_keys(coalesce(oldj,'{}'::jsonb)||coalesce(newj,'{}'::jsonb)) as k) names
  where oldj->k is distinct from newj->k;
- if TG_OP = 'UPDATE' and pg_catalog.coalesce(pg_catalog.array_length(changed,1),0) = 0 then return NEW; end if;
+ if TG_OP = 'UPDATE' and coalesce(pg_catalog.array_length(changed,1),0) = 0 then return NEW; end if;
  actor := auth.uid();
  mail := nullif(auth.jwt()->>'email','');
  target_key := coalesce(newj->>'id', oldj->>'id',
