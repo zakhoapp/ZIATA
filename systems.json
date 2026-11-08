@@ -1,0 +1,44 @@
+[
+  {
+    "id": "projects",
+    "name": "پولینکرنا پرۆژان",
+    "icon": "folder-kanban",
+    "url": "projects.html",
+    "description": "داشبۆردا پولینکرنا پرۆژان"
+  },
+  {
+    "id": "committees",
+    "name": "لێژنە و پرۆژە",
+    "icon": "users",
+    "url": "committees.html",
+    "description": "سیستەمێ لێژنە و پرۆژە"
+  },
+  {
+    "id": "letters",
+    "name": "بارکرنا نڤیساران",
+    "icon": "file-up",
+    "url": "letters.html",
+    "description": "سیستەمێ بارکرنا نڤیساران"
+  },
+  {
+    "id": "transactions",
+    "name": "برێڤەبرنا مامەلەیان",
+    "icon": "clipboard-list",
+    "url": "transactions.html",
+    "description": "سیستەمێ برێڤەبرنا مامەلەیان"
+  },
+  {
+    "id": "permits",
+    "name": "وەرگرتنا مولەتێ",
+    "icon": "file-check",
+    "url": "permits.html",
+    "description": "سیستەمێ وەرگرتنا مولەتێ"
+  },
+  {
+    "id": "engineers",
+    "name": "دەرکەفتنا ئەندازیاران",
+    "icon": "hard-hat",
+    "url": "engineers.html",
+    "description": "سیستەمێ دەرکەفتنا ئەندازیاران"
+  }
+]

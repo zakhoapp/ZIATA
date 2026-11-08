@@ -1,0 +1,53 @@
+/* ZIATA V30 — Stitch Sovereign Civic inspired responsive integration */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap');
+:root{--zi-navy:#10243a;--zi-deep:#000e1f;--zi-gold:#b58b49;--zi-bg:#f8f9ff;--zi-border:#dce5f1;--zi-text:#0b1c30;--zi-muted:#607087;--zi-radius:18px;--zi-shadow:0 5px 22px rgba(16,36,58,.065)}
+body{background:#f8f9ff!important;color:#0b1c30!important;font-family:'Noto Sans Arabic',Vazirmatn,Tahoma,sans-serif!important}
+.zi-appbar{background:#fff!important;border-bottom:1px solid #e1e8f1!important;box-shadow:0 2px 12px #10243a09!important}
+.zi-desktop-sidebar{background:#fff!important;border-left:1px solid #e1e8f1!important}
+.zi-side-link.zi-active,.zi-mobile-link.zi-active{background:#eff4ff!important;color:#10243a!important}
+.zi-mobile-nav{background:#fff!important;border-top:1px solid #e1e8f1!important}
+.zi-dashboard{max-width:1320px;padding-top:28px!important}
+.zi-welcome{background:linear-gradient(120deg,#10243a 0%,#172f4b 78%,#253e59 100%)!important;border:1px solid #32455a;border-radius:22px!important;box-shadow:0 12px 30px #10243a20!important;min-height:220px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.zi-welcome:before{content:'';position:absolute;left:-45px;bottom:-85px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,#b58b4924,transparent 70%);pointer-events:none}
+.zi-welcome h1{font-weight:800!important;line-height:1.65!important;max-width:720px}
+.zi-welcome .seal{object-fit:contain;filter:drop-shadow(0 5px 12px #0003)}
+.zi-install-btn{background:#f5deb0!important;color:#10243a!important;border:1px solid #f5deb0!important;font-weight:800!important;box-shadow:0 5px 15px #0002!important}
+.zi-section-heading{margin-top:34px!important;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.zi-section-heading h2{color:#10243a!important;font-weight:800!important}
+.zi-count{background:#e5eeff!important;color:#10243a!important;border:1px solid #d5e2f3!important;border-radius:9px!important;padding:7px 12px!important}
+.zi-grid{gap:16px!important}
+.zi-tile{background:#fff!important;border:1px solid #e1e8f1!important;border-radius:18px!important;box-shadow:0 4px 18px #10243a09!important;min-height:205px;transition:transform .18s,box-shadow .18s,border-color .18s!important;position:relative;overflow:hidden}
+.zi-tile:before{content:'';position:absolute;right:0;top:0;bottom:0;width:3px;background:transparent;transition:background .18s}
+.zi-tile:hover{transform:translateY(-3px)!important;box-shadow:0 12px 28px #10243a18!important;border-color:#c6d4e6!important}
+.zi-tile:hover:before{background:#b58b49}
+.zi-tile-icon{background:#eff4ff!important;color:#10243a!important;border:1px solid #e1e8f1!important;border-radius:13px!important}
+.zi-tile h3{color:#10243a!important;font-weight:800!important}
+.zi-tile p{color:#66768a!important}
+.zi-tile-open{color:#806024!important;font-weight:800!important}
+.zi-tile-number{color:#b58b49!important}
+.zi-dashboard-footer{color:#7c899a!important;border-top:1px solid #e1e8f1;margin-top:32px!important;padding-top:18px!important}
+.zi-account-actions{position:fixed;top:14px;left:16px;z-index:10000}
+.zi-account-button{background:#f5deb0!important;color:#10243a!important;border:1px solid #dec38e!important;border-radius:11px!important;padding:10px 15px!important;box-shadow:0 4px 16px #10243a1a!important}
+.zi-stitch-note{margin:17px 0 0;padding:14px 17px;border-radius:13px;background:#eff4ff;border:1px solid #dce7f6;color:#45576d;font-size:12px;line-height:1.95;display:flex;align-items:center;gap:10px}
+.zi-stitch-note svg{flex:none;width:21px;height:21px;color:#9a762e}
+.zi-module-label{font-size:11px;font-weight:800;letter-spacing:.6px;color:#a17a39;margin-bottom:4px}
+/* Shared internal modules — leave existing functionality intact */
+body:not(.zi-home) .container,body:not(.zi-home) .panel,body:not(.zi-home) .card,body:not(.zi-home) .box,body:not(.zi-home) .form-card{border:1px solid #e1e8f1!important;box-shadow:0 4px 20px #10243a0b!important}
+body:not(.zi-home) button[type=submit],body:not(.zi-home) .btn-primary{background:#10243a;color:#fff;border-radius:11px!important}
+body:not(.zi-home) input:focus,body:not(.zi-home) select:focus,body:not(.zi-home) textarea:focus{outline:2px solid #b58b4966!important}
+@media(max-width:680px){.zi-dashboard{padding:14px 13px 115px!important}.zi-welcome{padding:19px 16px!important;min-height:0;gap:12px;border-radius:18px!important}.zi-welcome h1{font-size:19px!important}.zi-welcome .seal{width:61px!important;height:61px!important;align-self:flex-start}.zi-section-heading{margin-top:24px!important}.zi-grid{grid-template-columns:1fr!important;gap:12px!important}.zi-tile{min-height:155px!important;padding:16px!important}.zi-tile h3{font-size:16px!important}.zi-account-actions{top:auto;bottom:86px;left:12px}.zi-stitch-note{font-size:11px;padding:11px 13px}.zi-install-btn{max-width:100%;white-space:normal;text-align:center}}
+@media(min-width:681px) and (max-width:1050px){.zi-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+/* Hide admin links and cards before auth check completes to prevent flash */
+html:not([data-zi-role=admin]) a[href="projects.html"],html:not([data-zi-role=admin]) a[href="committees.html"],html:not([data-zi-role=admin]) a[href="letters.html"]{display:none!important}
+
+/* V31 — unified navigation and module headers */
+.zi-module-page .zi-legacy-header{display:none!important}
+.zi-module-page .zi-legacy-back{display:none!important}
+.zi-appbar{direction:rtl;gap:18px}
+.zi-appbar-brand{flex:0 1 auto}
+.zi-appbar-title{margin-inline-start:auto;white-space:nowrap}
+.zi-home-link{display:inline-flex!important;align-items:center;justify-content:center;gap:8px;white-space:nowrap;min-height:42px;padding:8px 14px;background:#f5f7fa;border:1px solid #dce5f1;border-radius:12px;color:#10243a!important;font-size:12px;font-weight:800}
+.zi-home-link:hover{background:#eaf0f8;border-color:#b8cbe0}
+.zi-module-page .zi-page-intro{padding-top:7px;padding-bottom:8px;border-bottom:1px solid #e1e8f1}
+.zi-module-page .zi-page-intro h1{font-size:clamp(19px,2.3vw,26px);margin:4px 0}
+@media(max-width:700px){.zi-appbar{flex-wrap:wrap;min-height:66px;gap:7px 10px}.zi-appbar-brand{flex:1 1 auto}.zi-appbar-brand strong{font-size:12px}.zi-appbar-brand small{font-size:10px}.zi-appbar-title{display:none!important}.zi-home-link{min-height:36px;padding:6px 10px;font-size:11px}.zi-module-page .zi-page-intro{margin-top:10px;padding-top:4px}.zi-module-page .zi-page-intro h1{font-size:19px}}

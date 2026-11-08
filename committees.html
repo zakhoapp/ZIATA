@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html dir="rtl">
+  <head><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="manifest" href="/ZIATA/manifest.webmanifest"><meta name="theme-color" content="#0E2A47">
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Rudaw:wght@400;700&display=swap');
+      
+      :root {
+        --krg-gold: #FFC107;
+        --krg-red: #D32F2F;
+        --krg-green: #388E3C;
+        --dark-blue: #1a237e;
+      }
+
+      body {
+        font-family: 'Rudaw', 'Segoe UI', Tahoma, sans-serif;
+        background-color: #f4f6f9;
+      }
+
+      /* HEADER */
+      .header-container {
+        background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+        border-bottom: 5px solid var(--krg-gold);
+        padding: 15px 0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      }
+      .header-content { display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; }
+      .logo-box { width: 90px; height: 90px; }
+      .logo-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.2)); }
+      .titles { text-align: right; }
+      .gov-title { color: var(--krg-red); font-size: 1.1rem; font-weight: bold; letter-spacing: 0.5px; }
+      .main-title { color: var(--dark-blue); font-weight: 900; font-size: 1.8rem; margin: 2px 0; }
+      .sub-title { color: #555; font-weight: bold; font-size: 1.1rem; }
+      
+      /* MAIN CARD */
+      .main-card {
+        background: white; border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        margin-top: 25px; border-top: 4px solid var(--dark-blue);
+        padding: 25px;
+      }
+
+      /* Buttons */
+      .btn-primary-custom { background-color: var(--dark-blue); border-color: var(--dark-blue); color: white; }
+      .btn-primary-custom:hover { background-color: #0d1560; }
+      .btn-gold { background-color: var(--krg-gold); color: black; font-weight: bold; border: none; }
+      .btn-gold:hover { background-color: #e0a800; }
+
+      /* Filters */
+      .filter-box { background: #f8f9fa; border-radius: 8px; padding: 15px; margin-bottom: 20px; border: 1px solid #e9ecef; }
+
+      /* Table */
+      thead th { background-color: var(--dark-blue) !important; color: white !important; font-weight: normal; font-size: 0.95rem; }
+      .tag-badge { display: inline-block; padding: 4px 10px; margin: 2px; border-radius: 50px; font-size: 0.85rem; color: white; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+      
+      /* Role Badges */
+      .role-badge { font-weight: bold; font-size: 0.8rem; margin-left: 5px; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 4px;}
+      .role-eng { color: #0d6efd; background: #e7f1ff; } /* ئەندازیار: شین */
+      .role-piv { color: #8b5cf6; background: #ede9fe; } /* پێڤەر: مۆر */
+      .role-acc { color: #198754; background: #d1e7dd; } /* ژمێریار: سەوز */
+      .role-aud { color: #fd7e14; background: #ffe5d0; } /* هویربین: پرتەقاڵی */
+      .role-emp { color: #6c757d; background: #e2e3e5; } /* فەرمانبەر: خۆڵەمێشی */
+
+      /* Checkbox Grid */
+      .engineer-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+        max-height: 350px; overflow-y: auto; padding: 15px;
+        background: #f8f9fa; border: 1px solid #ddd; border-radius: 8px;
+      }
+      @media (max-width: 768px) { .engineer-grid { grid-template-columns: repeat(2, 1fr); } }
+      .form-check-item {
+        background: white; padding: 8px; border-radius: 6px; border: 1px solid #eee;
+        display: flex; align-items: center; transition: 0.2s;
+      }
+      .form-check-item:hover { border-color: var(--dark-blue); background-color: #eef2ff; }
+      .form-check-input { margin-left: 10px; width: 1.2em; height: 1.2em; cursor: pointer; }
+      .form-check-label { cursor: pointer; width: 100%; font-weight: bold; color: #444; }
+
+      /* Tabs */
+      .nav-tabs .nav-link { color: #555; font-weight: bold; }
+      .nav-tabs .nav-link.active { color: var(--dark-blue); border-top: 3px solid var(--dark-blue); background: #f8f9fa; }
+
+/* V11 modern native committees skin */
+:root{--krg-gold:#caa35c;--dark-blue:#123450;--krg-red:#ad3438}
+body{background:linear-gradient(180deg,#edf2f7,#f8fafc 380px);color:#17334d}
+.header-container{background:linear-gradient(115deg,#0b263d,#16445c);border-bottom:4px solid var(--krg-gold);padding:23px 0;box-shadow:0 12px 30px rgba(11,38,61,.15)}
+.header-content{justify-content:flex-start;max-width:1320px}
+.logo-box{height:76px;width:76px;background:#fff;border-radius:20px;padding:9px;box-shadow:0 6px 18px #0014}
+.logo-img{filter:none}
+.gov-title{color:#f3d28c;font-size:.94rem}
+.main-title{color:#fff;font-size:1.7rem}
+.sub-title{color:#dce7ef;font-size:1rem;font-weight:500}
+.container{max-width:1320px}
+.main-card{border:1px solid #e1e9ef;border-top:0;border-radius:20px;margin-top:26px;padding:clamp(16px,3vw,32px);box-shadow:0 10px 35px #18344d0d}
+.filter-box{background:#f7f9fc;border:1px solid #e3eaf1;border-radius:14px;padding:20px}
+.btn{border-radius:10px;font-weight:600;padding-top:9px;padding-bottom:9px}
+.btn-primary-custom{background:#123c58;border-color:#123c58}
+.btn-primary-custom:hover{background:#0c2b43;border-color:#0c2b43;color:white}
+.btn-gold{background:#d7b676;color:#102d42}
+.btn-gold:hover{background:#cba55d;color:#102d42}
+.form-control,.form-select{border-radius:10px;border-color:#dce5ee;min-height:42px}
+.form-control:focus,.form-select:focus{border-color:#caa35c;box-shadow:0 0 0 .18rem #caa35c33}
+.table{--bs-table-striped-bg:#f8fafc}
+.table thead th{background:#143a55!important;white-space:nowrap;padding:16px 12px}
+.table tbody td{padding:14px 12px;vertical-align:middle}
+.table-responsive{border:1px solid #e2e9f0;border-radius:14px;overflow:auto}
+.modal-content{border:0;border-radius:18px;overflow:hidden}
+.engineer-grid{border-radius:12px}
+.form-check-item{border-radius:9px}
+#accessGate{background:#edf2f7!important}
+@media(max-width:768px){.header-content{justify-content:center}.titles{text-align:center}.main-title{font-size:1.35rem}.main-card{padding:15px}.table{min-width:650px}}
+
+    </style>
+  <style>#btnExport,[onclick*="openAssignModal"],[onclick*="submitBatch"],[onclick*="submitEdit"],[onclick*="exportToSheet"],[onclick*="openEdit"]{display:none!important}</style><link rel="stylesheet" href="ziata-theme.css"><link rel="stylesheet" href="ziata-stitch.css?v=31"><link rel="stylesheet" href="ziata-auth.css?v=33"><link rel="stylesheet" href="ziata-v34.css?v=34"><link rel="stylesheet" href="ziata-design.css?v=46"></head>
+  <body style="visibility:hidden"><div id="accessGate" style="position:fixed;inset:0;background:#f4f6f9;z-index:9999;display:grid;place-items:center;text-align:center;padding:20px"><div><h3>سیستەمێ لێژنە و پرۆژە</h3><p id="gateStatus">بارکرنا داتایان...</p><a href="index.html">زڤڕین بۆ داشبۆردێ</a></div></div><div style="background:#0c3153;padding:12px 22px;color:white"><a href="index.html" style="color:#f1d28b;text-decoration:none">← زڤڕین بۆ داشبۆردا سەرەکی</a></div>
+
+    <div class="header-container">
+      <div class="container header-content">
+        <div class="logo-box">
+          <img src="./logo.webp" class="logo-img" alt="KRG Logo">
+        </div>
+        <div class="titles">
+          <div class="gov-title">حکومەتا هەرێما کوردستانێ</div>
+          <div class="main-title">ئیدارا سەربەخۆ یا زاخۆ</div>
+          <div class="sub-title">سیستەمێ لێژنە و پرۆژە</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container mb-5">
+      <div class="main-card">
+        
+        <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+          <h4 class="fw-bold m-0 text-secondary"><i class="bi bi-folder2-open"></i> دوسیە و تۆمارێن لێژنە و پرۆژان</h4>
+          <div class="mt-2 mt-md-0">
+            <button onclick="openAssignModal()" class="btn btn-primary-custom px-4 shadow-sm">
+              <i class="bi bi-plus-lg"></i> دابەشکرنا لیژنە/پروژان
+            </button>
+            <button onclick="exportToSheet()" class="btn btn-gold ms-2 shadow-sm" id="btnExport">
+              <i class="bi bi-file-earmark-spreadsheet"></i> راپورت (Excel)
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-box">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label small fw-bold text-muted">لێگەریان (ناڤ، پروژە)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                <input type="text" id="searchInput" class="form-control" placeholder="بنویسە..." onkeyup="applyFilters()">
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <label class="form-label small fw-bold text-muted">فلتەرێ پسپوریێ</label>
+              <select class="form-select" id="filterRole" onchange="applyFilters()">
+                <option value="all">هەمی</option>
+                <option value="eng">ئەندازیار</option>
+                <option value="piv">پێڤەر</option>
+                <option value="acc">ژمێریار</option>
+                <option value="aud">هویربین</option>
+                <option value="emp">فەرمانبەر</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label small fw-bold text-muted">فلتەرێ لیژنێ</label>
+              <select class="form-select" id="filterCommittee" onchange="applyFilters()">
+                <option value="all">هەمی لیژنە</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+           <span class="badge bg-light text-dark border">سەرجەم: <span id="recordCount">0</span></span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover table-striped align-middle border">
+            <thead>
+              <tr>
+                <th width="5%">#</th>
+                <th width="25%">ناڤ و پسپوری</th>
+                <th width="30%">لیژنە</th>
+                <th width="30%">پروژە</th>
+                <th width="10%" class="text-center">کریار</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <tr><td colspan="5" class="text-center p-5 text-muted">ئینانا زانیاریان...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div id="reportLinkArea" class="mt-3"></div>
+
+      </div>
+    </div>
+
+    <div class="modal fade" id="assignModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: var(--dark-blue); color: white;">
+            <h5 class="modal-title fw-bold">دابەشکرنا لیژنە و پروژان</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body bg-light">
+            
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-bold">جورێ لیژنێ</label>
+                <select class="form-select" id="batchCommittee">
+                  <option value="">هەلبژێرە...</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold">ناڤێ پروژەی</label>
+                <input type="text" class="form-control" id="batchProject" placeholder="ناڤێ پروژەی بنڤیسە...">
+              </div>
+            </div>
+
+            <div class="card shadow-sm border-0">
+              <div class="card-header bg-white fw-bold">
+                <ul class="nav nav-tabs card-header-tabs flex-wrap" id="assignTabs" role="tablist">
+                  <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#content-eng" type="button">ئەندازیار</button></li>
+                  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#content-piv" type="button">پێڤەر</button></li>
+                  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#content-acc" type="button">ژمێریار</button></li>
+                  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#content-aud" type="button">هویربین</button></li>
+                  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#content-emp" type="button">فەرمانبەر</button></li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content">
+                  
+                  <div class="tab-pane fade show active" id="content-eng">
+                     <input type="text" id="searchEngModal" class="form-control form-control-sm mb-2" placeholder="لێگەریان..." onkeyup="filterChecks('eng')">
+                     <div class="engineer-grid" id="cbEng"></div>
+                  </div>
+                  <div class="tab-pane fade" id="content-piv">
+                     <input type="text" id="searchPivModal" class="form-control form-control-sm mb-2" placeholder="لێگەریان..." onkeyup="filterChecks('piv')">
+                     <div class="engineer-grid" id="cbPiv"></div>
+                  </div>
+                  <div class="tab-pane fade" id="content-acc">
+                     <input type="text" id="searchAccModal" class="form-control form-control-sm mb-2" placeholder="لێگەریان..." onkeyup="filterChecks('acc')">
+                     <div class="engineer-grid" id="cbAcc"></div>
+                  </div>
+                  <div class="tab-pane fade" id="content-aud">
+                     <input type="text" id="searchAudModal" class="form-control form-control-sm mb-2" placeholder="لێگەریان..." onkeyup="filterChecks('aud')">
+                     <div class="engineer-grid" id="cbAud"></div>
+                  </div>
+                  <div class="tab-pane fade" id="content-emp">
+                     <input type="text" id="searchEmpModal" class="form-control form-control-sm mb-2" placeholder="لێگەریان..." onkeyup="filterChecks('emp')">
+                     <div class="engineer-grid" id="cbEmp"></div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">گرتن</button>
+            <button type="button" class="btn btn-primary-custom px-4" onclick="submitBatch()">
+              <i class="bi bi-save"></i> تومارکرن
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-warning">
+            <h5 class="modal-title fw-bold text-dark">دەستکاریا بلەز</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="editNameHidden">
+            <h5 id="editNameDisplay" class="text-center fw-bold mb-3 text-primary"></h5>
+            <div class="mb-3">
+              <label class="fw-bold small">لیژنە (هەر دێڕەک ئێک):</label>
+              <textarea class="form-control" id="editCom" rows="4"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="fw-bold small">پروژە (هەر دێڕەک ئێک):</label>
+              <textarea class="form-control" id="editProj" rows="5"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+             <button type="button" class="btn btn-dark w-100" onclick="submitEdit()">تومارکرن</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script><script src="committees-config.js"></script><script>
+// Same JSONP pattern as the existing projects PWA: direct Apps Script doGet.
+const committeesCache = {getDropdownLists:null,getAllRecords:null};
+let jsonpSequence=0;
+function committeeCall(method,args,success,failure){
+ if(!['getDropdownLists','getAllRecords'].includes(method)){
+   (failure||alert)(new Error('Read-only preview: edits are disabled until access protection is configured'));return;
+ }
+ const endpoint=window.ZAKHO_COMMITTEES_URL;
+ if(!endpoint){(failure||alert)(new Error('Missing committees-config.js URL'));return;}
+ const cb='zakhoCommitteesCallback_'+Date.now()+'_'+(++jsonpSequence);
+ const script=document.createElement('script');
+ let settled=false;
+ const cleanup=()=>{delete window[cb];script.remove();clearTimeout(timer)};
+ const fail=e=>{if(settled)return;settled=true;cleanup();if(failure)failure(e);else alert(e.message||String(e))};
+ const timer=setTimeout(()=>fail(new Error('Connection timed out; check Apps Script deployment')),25000);
+ window[cb]=payload=>{if(settled)return;settled=true;cleanup();if(payload&&payload.ok)success(payload.result);else if(failure)failure(new Error(payload?.error||'Backend error'));};
+ script.onerror=()=>fail(new Error('Cannot load Apps Script JSONP endpoint'));
+ const u=new URL(endpoint);u.searchParams.set('pwa','committees');u.searchParams.set('method',method);u.searchParams.set('callback',cb);u.searchParams.set('_',String(Date.now()));
+ script.src=u.toString();document.head.appendChild(script);
+}
+function runner(success,failure){
+ const o={withSuccessHandler(fn){return runner(fn,failure)},withFailureHandler(fn){return runner(success,fn)}};
+ for(const m of ['getDropdownLists','getAllRecords','batchAddActivity','updateSingleRecord','generateReportSheet'])
+ o[m]=(...args)=>committeeCall(m,args,success,failure);
+ return o;
+}
+window.google={script:{run:runner()}};
+</script>
+<script>document.addEventListener('DOMContentLoaded',()=>{document.getElementById('accessGate')?.remove();window.startCommittee();});</script>
+    <script>
+      var assignModal, editModal;
+      var globalData = [];
+      var lists = { eng: [], piv: [], acc: [], aud: [], emp: [] }; 
+      
+      const tagColors = ['#b91d47', '#0047AB', '#008000', '#d35400', '#8e44ad', '#2c3e50', '#c0392b'];
+
+      window.startCommittee = function() {
+        assignModal = new bootstrap.Modal(document.getElementById('assignModal'));
+        editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        
+        google.script.run.withSuccessHandler(function(data) {
+          lists = data; 
+          
+          var comSelect = document.getElementById("batchCommittee");
+          var filterCom = document.getElementById("filterCommittee");
+          
+          data.com.forEach(c => {
+            comSelect.add(new Option(c, c));
+            filterCom.add(new Option(c, c));
+          });
+          
+          // Fill Checkboxes
+          fillCheckboxContainer("cbEng", data.eng, "engCB");
+          fillCheckboxContainer("cbPiv", data.piv, "pivCB");
+          fillCheckboxContainer("cbAcc", data.acc, "accCB");
+          fillCheckboxContainer("cbAud", data.aud, "audCB");
+          fillCheckboxContainer("cbEmp", data.emp, "empCB");
+          
+          loadData();
+        }).withFailureHandler(function(e){document.getElementById("tableBody").innerHTML="<tr><td colspan='5' class='text-center text-danger p-4'>خەلەتی د بارکرنا داتایان دا: "+String(e.message||e)+"</td></tr>";}).getDropdownLists();
+      };
+
+      function fillCheckboxContainer(containerId, list, nameAttr) {
+        var container = document.getElementById(containerId);
+        container.innerHTML = "";
+        list.forEach((name, i) => {
+          container.innerHTML += `
+            <div class="form-check-item">
+              <input class="form-check-input" type="checkbox" name="${nameAttr}" value="${name}" id="${nameAttr}_${i}">
+              <label class="form-check-label" for="${nameAttr}_${i}">${name}</label>
+            </div>`;
+        });
+      }
+
+      function loadData() {
+        google.script.run.withSuccessHandler(renderTable).withFailureHandler(function(e){document.getElementById("tableBody").innerHTML="<tr><td colspan='5' class='text-center text-danger p-4'>"+String(e.message||e)+"</td></tr>";}).getAllRecords();
+      }
+
+      function renderTable(data) {
+        globalData = data;
+        applyFilters();
+      }
+
+      function applyFilters() {
+        var searchTerm = document.getElementById("searchInput").value.toLowerCase();
+        var roleFilter = document.getElementById("filterRole").value; // all, eng, piv, acc, aud, emp
+        var committeeFilter = document.getElementById("filterCommittee").value;
+
+        var tbody = document.getElementById("tableBody");
+        tbody.innerHTML = "";
+
+        var filtered = globalData.filter(row => {
+          var name = row[0];
+          var committees = row[1] ? row[1].toString() : "";
+          var projects = row[2] ? row[2].toString() : "";
+          
+          var matchSearch = (name + committees + projects).toLowerCase().includes(searchTerm);
+          
+          var isEng = lists.eng.includes(name);
+          var isPiv = lists.piv.includes(name);
+          var isAcc = lists.acc.includes(name);
+          var isAud = lists.aud.includes(name);
+          var isEmp = lists.emp.includes(name);
+          
+          var matchRole = true;
+          if (roleFilter === 'eng') matchRole = isEng;
+          if (roleFilter === 'piv') matchRole = isPiv;
+          if (roleFilter === 'acc') matchRole = isAcc;
+          if (roleFilter === 'aud') matchRole = isAud;
+          if (roleFilter === 'emp') matchRole = isEmp;
+          
+          var matchCom = (committeeFilter === 'all') || committees.includes(committeeFilter);
+
+          return matchSearch && matchRole && matchCom;
+        });
+
+        document.getElementById("recordCount").innerText = filtered.length;
+
+        if (filtered.length === 0) {
+           tbody.innerHTML = "<tr><td colspan='5' class='text-center p-3'>چ داتا نینن</td></tr>"; return;
+        }
+
+        filtered.forEach((row, index) => {
+          var name = row[0];
+          var roleBadge = "";
+          
+          if (lists.eng.includes(name)) roleBadge = `<span class="role-badge role-eng">ئەندازیار</span>`;
+          else if (lists.piv.includes(name)) roleBadge = `<span class="role-badge role-piv">پێڤەر</span>`;
+          else if (lists.acc.includes(name)) roleBadge = `<span class="role-badge role-acc">ژمێریار</span>`;
+          else if (lists.aud.includes(name)) roleBadge = `<span class="role-badge role-aud">هویربین</span>`;
+          else if (lists.emp.includes(name)) roleBadge = `<span class="role-badge role-emp">فەرمانبەر</span>`;
+          
+          let committees = row[1] ? row[1].split('\n').map(c => {
+            if(!c.trim()) return "";
+            let color = tagColors[Math.abs(hashStr(c.trim()) % tagColors.length)];
+            return `<span class="tag-badge" style="background-color:${color}">${c}</span>`;
+          }).join(" ") : "";
+
+          let projects = row[2] ? row[2].split('\n').map(p => {
+             if(!p.trim()) return "";
+             return `<div><i class="bi bi-caret-left-fill text-warning"></i> ${p}</div>`;
+          }).join("") : "";
+
+          let safeName = row[0].replace(/'/g, "\\'");
+          let safeCom = row[1] ? row[1].replace(/'/g, "\\'").replace(/\n/g, "\\n") : "";
+          let safeProj = row[2] ? row[2].replace(/'/g, "\\'").replace(/\n/g, "\\n") : "";
+
+          tbody.innerHTML += `
+            <tr>
+              <td>${index + 1}</td>
+              <td>
+                <div class="fw-bold text-dark">${name}</div>
+                ${roleBadge}
+              </td>
+              <td>${committees}</td>
+              <td>${projects}</td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-outline-primary" onclick="openEdit('${safeName}', '${safeCom}', '${safeProj}')">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+              </td>
+            </tr>`;
+        });
+      }
+
+      function openAssignModal() {
+        document.getElementById("batchCommittee").value = "";
+        document.getElementById("batchProject").value = "";
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        assignModal.show();
+      }
+
+      function submitBatch() { alert("دەستکاریکرن جارێ قەدەغەیە"); return;
+        var com = document.getElementById("batchCommittee").value;
+        var proj = document.getElementById("batchProject").value;
+        
+        var engS = Array.from(document.querySelectorAll('input[name="engCB"]:checked')).map(c => c.value);
+        var pivS = Array.from(document.querySelectorAll('input[name="pivCB"]:checked')).map(c => c.value);
+        var accS = Array.from(document.querySelectorAll('input[name="accCB"]:checked')).map(c => c.value);
+        var audS = Array.from(document.querySelectorAll('input[name="audCB"]:checked')).map(c => c.value);
+        var empS = Array.from(document.querySelectorAll('input[name="empCB"]:checked')).map(c => c.value);
+        
+        var allSelected = [...engS, ...pivS, ...accS, ...audS, ...empS];
+
+        if (allSelected.length === 0) { alert("هیچ فەرمانبەرەک نەهاتیە هەلبژارتن"); return; }
+        
+        var btn = document.querySelector("#assignModal .btn-primary-custom");
+        var txt = btn.innerHTML;
+        btn.disabled = true; btn.innerHTML = "خەریکە...";
+
+        google.script.run.withSuccessHandler(function(res) {
+          assignModal.hide();
+          btn.disabled = false; btn.innerHTML = txt;
+          alert(res);
+          loadData();
+        }).batchAddActivity(com, proj, allSelected);
+      }
+
+      function openEdit(name, com, proj) { alert("ئەم وەشانە بتنێ بۆ دیتنا داتایانە"); return;
+        document.getElementById("editNameHidden").value = name;
+        document.getElementById("editNameDisplay").innerText = name;
+        document.getElementById("editCom").value = com;
+        document.getElementById("editProj").value = proj;
+        editModal.show();
+      }
+
+      function submitEdit() { alert("دەستکاریکرن جارێ قەدەغەیە"); return;
+        var name = document.getElementById("editNameHidden").value;
+        var com = document.getElementById("editCom").value.split('\n').filter(l=>l.trim()).join('\n');
+        var proj = document.getElementById("editProj").value.split('\n').filter(l=>l.trim()).join('\n');
+        
+        google.script.run.withSuccessHandler(function(res) {
+          editModal.hide();
+          loadData();
+        }).updateSingleRecord(name, com, proj);
+      }
+
+      function exportToSheet() { alert("ئەم کردارە جارێ ناچالاکە"); return;
+        var btn = document.getElementById('btnExport');
+        var area = document.getElementById('reportLinkArea');
+        btn.disabled = true;
+        
+        google.script.run.withSuccessHandler(function(url) {
+            btn.disabled = false;
+            area.innerHTML = `<div class="alert alert-warning d-flex justify-content-between">
+              <strong>فایل ئامادەیە!</strong> 
+              <a href="${url}" target="_blank" class="btn btn-dark btn-sm">ڤەکرنا فایلی</a>
+            </div>`;
+        }).generateReportSheet();
+      }
+
+      function filterChecks(type) {
+        var inputId = "", containerId = "";
+        if(type==='eng') { inputId='searchEngModal'; containerId='cbEng'; }
+        if(type==='piv') { inputId='searchPivModal'; containerId='cbPiv'; }
+        if(type==='acc') { inputId='searchAccModal'; containerId='cbAcc'; }
+        if(type==='aud') { inputId='searchAudModal'; containerId='cbAud'; }
+        if(type==='emp') { inputId='searchEmpModal'; containerId='cbEmp'; }
+
+        var val = document.getElementById(inputId).value.toLowerCase();
+        document.querySelectorAll(`#${containerId} .form-check-item`).forEach(item => {
+           item.style.display = item.innerText.toLowerCase().includes(val) ? "flex" : "none";
+        });
+      }
+
+      function hashStr(s) { let h=0; for(let i=0;i<s.length;i++)h=s.charCodeAt(i)+((h<<5)-h); return h; }
+    </script>
+  <script src="ziata-shell.js?v=31"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="ziata-supabase-config.js"></script><script src="ziata-auth.js?v=37"></script><script>window.addEventListener("ziata-ready",()=>document.body.style.visibility="visible")</script><script src="/ZIATA/pwa-register.js" defer></script></body>
+</html>

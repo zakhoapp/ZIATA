@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ku">
+<head><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="manifest" href="/ZIATA/manifest.webmanifest">
+  <base target="_self"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0c3153">
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Vazirmatn', Tahoma, Arial, sans-serif; background-color: #f4f6f9; padding: 20px; direction: rtl; color: #2d3748; }
+    .container { max-width: 100%; margin: 0 auto; background: #ffffff; padding: 35px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+    h2, h4 { text-align: center; color: #1a202c; margin-bottom: 5px; font-weight: 700; }
+    h4 { margin-bottom: 25px; color: #718096; font-weight: 400; font-size: 15px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; font-weight: 700; color: #4a5568; font-size: 14px; }
+    input[type="text"], input[type="password"], input[type="date"], select { width: 100%; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; font-size: 14px; font-family: 'Vazirmatn', sans-serif; transition: all 0.3s ease; background-color: #f8fafc; }
+    input:focus, select:focus { border-color: #3182ce; background-color: #fff; outline: none; box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15); }
+    .dates-row { display: flex; gap: 15px; }
+    .dates-row .form-group { flex: 1; }
+    button { width: 100%; padding: 12px; background-color: #3182ce; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 700; font-family: 'Vazirmatn', sans-serif; transition: all 0.3s ease; }
+    button:hover { background-color: #2b6cb0; transform: translateY(-1px); }
+    .btn-danger { background-color: #e53e3e; margin-bottom: 20px; width: auto; padding: 8px 20px; float: left; font-size: 13px; }
+    .btn-danger:hover { background-color: #c53030; }
+    .btn-success { background-color: #38a169; }
+    .btn-success:hover { background-color: #2f855a; }
+    .hidden { display: none !important; }
+    .clearfix::after { content: ""; clear: both; display: table; }
+    #msg-box { text-align: center; margin-top: 15px; font-weight: 700; font-size: 14px; }
+    .title-role { text-align: right; color: #2b6cb0; margin: 0; padding-top: 5px; font-weight: 700; }
+    .header-section { border-bottom: 2px solid #edf2f7; margin-bottom: 25px; padding-bottom: 15px; }
+    .table-responsive { overflow-x: auto; margin-top: 15px; border-radius: 8px; border: 1px solid #e2e8f0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; white-space: nowrap; margin-bottom: 20px;}
+    th, td { border: 1px solid #edf2f7; padding: 12px; }
+    th { background-color: #2d3748; color: white; font-weight: 700; }
+    .th-group { background-color: #1a202c; border-bottom: 2px solid #edf2f7; }
+    tr:nth-child(even) { background-color: #f7fafc; }
+    tr:hover { background-color: #edf2f7; }
+    .status-badge { background-color: #feebc8; padding: 5px 10px; border-radius: 6px; font-weight: 700; font-size: 11px; color: #c05621; display: inline-block; }
+    .hand-badge { background-color: #e2e8f0; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; color: #4a5568; display: inline-block; }
+    .search-bar { display: flex; gap: 15px; background: #f7fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 20px; align-items: center; }
+    .search-bar input, .search-bar select { margin: 0; }
+    .section-title { color: #2d3748; border-right: 5px solid #3182ce; padding-right: 12px; font-weight: 700; margin-top: 30px; font-size: 17px; }
+    .info-note { background-color: #ebf8ff; border-right: 4px solid #3182ce; padding: 12px 15px; border-radius: 6px; font-size: 13px; color: #2b6cb0; margin-bottom: 20px; font-weight: 700; }
+    
+    /* ستایلێ تایبەت بۆ ناڤێ گەشەپێدەران */
+    .footer-credit {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px dashed #cbd5e0;
+      font-size: 13px;
+      color: #718096;
+      direction: ltr; /* دا کو دەقێ ئینگلیزی ب جوانی ل چەپێ بۆ ڕاستێ بهێتە خوارێ */
+      font-family: Tahoma, Arial, sans-serif;
+    }
+  </style>
+<style>body{background:#f2f6fb}.container{max-width:1350px;border-top:5px solid #d5a642}button{background:#0c3153}button:hover{background:#17466d}.header-section{border-bottom-color:#d5a642}</style><link rel="stylesheet" href="ziata-theme.css"><link rel="stylesheet" href="ziata-stitch.css?v=31"><link rel="stylesheet" href="ziata-auth.css?v=33"><link rel="stylesheet" href="ziata-v34.css?v=34"><link rel="stylesheet" href="ziata-design.css?v=46"></head>
+<body style="visibility:hidden"><div style="max-width:1350px;margin:0 auto 12px"><a href="index.html" style="color:#0c3153;text-decoration:none;font-weight:bold">← داشبۆردا سەرەکی</a></div>
+
+  <div class="container">
+    <div id="login-section" style="max-width: 480px; margin: 0 auto; padding: 10px 0;">
+      <h2>ئیدارا سەربەخۆ یا زاخۆ - کاروبارێن تەکنیکی</h2>
+      <h4>سیستەمێ زنجیرەیی یێ برێڤەبرنا مامەلەیان</h4>
+      <div class="form-group">
+        <label>ناڤێ بەکارهێنەری (Username)</label>
+        <input type="text" id="username" placeholder="ناڤێ بەکارهێنەری لێرە بنڤیسە...">
+      </div>
+      <div class="form-group">
+        <label>پەیڤا دەربازبوونێ (Password)</label>
+        <input type="password" id="password" placeholder="پەیڤا دەربازبوونێ بنڤیسە...">
+      </div>
+      <button onclick="login()">چوونە ژوورڤە</button>
+      <div id="login-msg" id="msg-box"></div>
+    </div>
+
+    <div id="main-section" class="hidden">
+      <div class="header-section clearfix">
+        <button class="btn-danger" onclick="logout()">چوونە دەرڤە</button>
+        <h3 id="role-title" class="title-role"></h3>
+      </div>
+      
+      <div id="input-forms" class="hidden" style="max-width: 750px; margin: 0 auto;">
+        <div style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 30px;">
+          
+          <div class="info-note" id="helper-note">
+            هیڤییە ل دەستپێکێ ناڤێ مامەلەیێ بنڤیسە یان هەلبژێرە دا کو فۆڕم بارودۆخێ وێ بۆ لێژنا تە دیار بکەت.
+          </div>
+
+          <div class="form-group">
+            <label>ناڤێ مامەلەیێ / پڕۆژەیی</label>
+            <input type="text" id="transaction-input" list="transactions-list" oninput="checkTransactionStatus()" placeholder="ناڤێ مامەلەیێ بنڤیسە یان هەلبژێرە...">
+            <datalist id="transactions-list"></datalist>
+          </div>
+
+          <div class="form-group hidden" id="group-received">
+            <label>رێکەفتا هاتنا مامەلەیێ بۆ دەف تە</label>
+            <input type="date" id="date-received">
+          </div>
+
+          <div class="form-group hidden" id="group-finished">
+            <label>رێکەفتا رۆیشتنێ (تەمامبوونێ)</label>
+            <input type="date" id="date-finished">
+          </div>
+
+          <div class="form-group hidden" id="group-handed">
+            <label>رادەستی کێ هاتە کرن؟ (ل کاتی دەرکەفتنێ)</label>
+            <select id="handed-to">
+              <option value="">-- لێژنەکێ هەلبژێرە --</option>
+              <option value="لێژنا هویربینیێ">لێژنا هویربینیێ</option>
+              <option value="لێژنا ئامادەکرنا تەندەران">لێژنا ئامادەکرنا تەندەران</option>
+              <option value="لێژنا ڤەکرنا تەندەران">لێژنا ڤەکرنا تەندەران</option>
+              <option value="لێژنا شروڤەکرنا تەندەران">لێژنا شروڤەکرنا تەندەران</option>
+              <option value="لێژنا هەڤسەنگی و ماوێ زێدە">لێژنا هەڤسەنگی و ماوێ زێدە</option>
+              <option value="کار تەمام بوو (ئەرشیف)">کار تەمام بوو (ئەرشیف)</option>
+            </select>
+          </div>
+
+          <button id="submit-btn" class="btn-success hidden" onclick="submitData()">تۆمارکرنا پێزانینان</button>
+          <div id="status-msg" style="text-align: center; margin-top: 15px; font-weight: bold;"></div>
+        </div>
+
+        <div id="role-specific-table-section" class="hidden">
+          <h3 class="section-title">خشتێ مامەلەیێن لێژنا تە</h3>
+          <div id="loading-role-data" style="text-align:center; color:#3182ce; font-size: 14px; font-weight: bold;">داتایێن لێژنا تە دهێن...</div>
+          <div class="table-responsive">
+            <table id="role-table" class="hidden">
+              <thead>
+                <tr>
+                  <th>ناڤێ مامەلەیێ</th>
+                  <th>رێکەفتا هاتنێ</th>
+                  <th>رێکەفتا رۆیشتنێ</th>
+                  <th>رادەستکرن بۆ</th>
+                  <th>بارودۆخێ گشتی</th>
+                </tr>
+              </thead>
+              <tbody id="role-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="dashboard-section" class="hidden">
+        <div id="loading-dashboard" style="text-align:center; color:#3182ce; font-size: 16px; font-weight: bold;">هاتنا داتایان... هیڤییە چاڤەرێ بە...</div>
+        <div id="dashboard-content" class="hidden">
+          <h3 class="section-title">نەخشێ گشتی یێ رێڕەوێ مامەلەیان</h3>
+          <div class="table-responsive">
+            <table id="dashboard-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">ناڤێ مامەلەیێ</th>
+                  <th colspan="3" class="th-group">هویربینی</th>
+                  <th colspan="3" class="th-group">ئامادەکرن</th>
+                  <th colspan="3" class="th-group">ڤەکرن</th>
+                  <th colspan="3" class="th-group">شروڤەکرن</th>
+                  <th colspan="3" class="th-group">هەڤسەنگی و زێدە</th>
+                  <th rowspan="2" style="background-color: #1a202c;">بارودۆخێ نوکە</th>
+                </tr>
+                <tr>
+                  <th>هاتن</th><th>رۆیشتن</th><th>رادەستکرن</th>
+                  <th>هاتن</th><th>رۆیشتن</th><th>رادەستکرن</th>
+                  <th>هاتن</th><th>رۆیشتن</th><th>رادەستکرن</th>
+                  <th>هاتن</th><th>رۆیشتن</th><th>رادەستکرن</th>
+                  <th>هاتن</th><th>رۆیشتن</th><th>رادەستکرن</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-body"></tbody>
+            </table>
+          </div>
+
+          <h3 class="section-title">هویرکارییێن مامەلەیان و لێگەرین</h3>
+          <div class="search-bar">
+            <div style="flex: 2;"><input type="text" id="searchInput" onkeyup="filterTable()" placeholder="ناڤێ مامەلەیێ بنڤیسە بۆ لێگەرینێ..."></div>
+            <div style="flex: 1;">
+              <select id="filterStage" onchange="filterTable()">
+                <option value="all">هەمی قۆناغ</option>
+                <option value="هویربینی">لێژنا هویربینیێ</option>
+                <option value="ئامادە">لێژنا ئامادەکرنا تەندەران</option>
+                <option value="ڤەکرن">لێژنا ڤەکرنا تەندەران</option>
+                <option value="شروڤە">لێژنا شروڤەکرنا تەندەران</option>
+                <option value="هەڤسەنگی">لێژنا هەڤسەنگی و ماوێ زێدە</option>
+                <option value="ئەرشیف">تەمام بووی (ئەرشیف)</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table id="detailed-table">
+              <thead>
+                <tr>
+                  <th>ناڤێ مامەلەیێ</th>
+                  <th>لێژنا بەرپرس (دوماهیک کار)</th>
+                  <th>رێکەفتا هاتنێ</th>
+                  <th>رێکەفتا تەمامبوونێ</th>
+                  <th>رادەستی کێ هاتە کرن</th>
+                  <th>بارودۆخێ نوکە یێ گشتی</th>
+                </tr>
+              </thead>
+              <tbody id="detailed-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ناڤێ گەشەپێدەران ل بنەیا لاپەڕەی -->
+    <div class="footer-credit">
+      System Developed by: Eng. Heja Muhammad & Eng. Sadeq Peero
+    </div>
+
+  </div>
+
+  
+<script>
+(function(){
+let sessionToken='';
+async function call(action, payload){
+ const res=await window.ziataProxy('transactions',{action,token:sessionToken,...payload});
+ let data;try{data=await res.json()}catch{throw Error('Netlify/Apps Script did not return JSON. Check deployment and function logs.')} 
+ if(!res.ok||!data.ok)throw Error(data.error||'API error');
+ return data;
+}
+window.google={script:{run:{withSuccessHandler(success){return {withFailureHandler(failure){return make(success,failure)},...make(success,null)}}}}};
+function make(success,failure){
+ const execute=(action,payload,transform)=>call(action,payload).then(r=>{if(action==='login')sessionToken=r.token;success(transform(r))}).catch(err=>{if(failure)failure(err);else {console.error(err);alert('خەلەتی: '+err.message)}});
+ return {
+ verifyLogin:(username,password)=>execute('login',{username,password},r=>r.role),
+ getTransactionNames:()=>execute('names',{},r=>r.data),
+ getDashboardData:()=>execute('dashboard',{},r=>r.data),
+ updateTransaction:(transactionName,dateReceived,dateFinished,handedTo,role)=>execute('update',{transactionName,dateReceived,dateFinished,handedTo},r=>r.message)
+ };
+}
+window.transactionsLogout=function(){sessionToken=''};
+})();
+</script>
+
+<script>
+    let currentRole = "";
+    let loadedTransactionNames = []; 
+    let allTransactionsData = []; 
+
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      if(!user || !pass) { document.getElementById('login-msg').innerHTML = "<span style='color:#e53e3e;'>هیڤییە هەمی خانەیان پر بکە</span>"; return; }
+      document.getElementById('login-msg').innerHTML = "<span style='color:#3182ce;'>یێ ل ژێر پشکنینێ دایە...</span>";
+      google.script.run.withSuccessHandler(onLoginSuccess).verifyLogin(user, pass);
+    }
+
+    function onLoginSuccess(role) {
+      if (role === "هەڵە" || role === "") {
+        document.getElementById('login-msg').innerHTML = "<span style='color:#e53e3e;'>ناڤێ بەکارهێنەری یان پەیڤا دەربازبوونێ خەلەتە!</span>";
+      } else {
+        currentRole = role;
+        document.getElementById('login-section').classList.add('hidden');
+        document.getElementById('main-section').classList.remove('hidden');
+        let roleNameKurdish = role;
+        const checkRole = role.trim().toLowerCase();
+        
+        if(checkRole.includes("hwrbini") || checkRole.includes("هویربینی")) roleNameKurdish = "لێژنا هویربینیێ";
+        else if(checkRole.includes("amadekrdn") || checkRole.includes("ئامادە")) roleNameKurdish = "لێژنا ئامادەکرنا تەندەران";
+        else if(checkRole.includes("vekrn") || checkRole.includes("ڤەکرن")) roleNameKurdish = "لێژنا ڤەکرنا تەندەران";
+        else if(checkRole.includes("shrovekrn") || checkRole.includes("شروڤە")) roleNameKurdish = "لێژنا شروڤەکرنا تەندەران";
+        else if(checkRole.includes("havsangi") || checkRole.includes("هەڤسەنگی") || checkRole.includes("زێدە")) roleNameKurdish = "لێژنا هەڤسەنگی و ماوێ زێدە";
+        else if(checkRole.includes("dashboard") || checkRole.includes("داشبۆرد")) roleNameKurdish = "داشبۆردێ چاڤدێرییا گشتی";
+
+        document.getElementById('role-title').innerText = "ب خێر بێی: " + roleNameKurdish;
+        setupUI(role);
+      }
+    }
+
+    function setupUI(role) {
+      const checkRole = role.trim().toLowerCase();
+      document.getElementById('status-msg').innerHTML = "";
+      document.getElementById('input-forms').classList.add('hidden');
+      document.getElementById('dashboard-section').classList.add('hidden');
+      document.getElementById('role-specific-table-section').classList.add('hidden');
+
+      if (checkRole.includes("dashboard") || checkRole.includes("داشبۆرد")) {
+        document.getElementById('dashboard-section').classList.remove('hidden');
+        document.getElementById('dashboard-content').classList.add('hidden');
+        document.getElementById('loading-dashboard').classList.remove('hidden');
+        google.script.run.withSuccessHandler(populateDashboard).getDashboardData();
+      } else {
+        document.getElementById('input-forms').classList.remove('hidden');
+        document.getElementById('role-specific-table-section').classList.remove('hidden');
+        document.getElementById('role-table').classList.add('hidden');
+        document.getElementById('loading-role-data').classList.remove('hidden');
+        
+        google.script.run.withSuccessHandler(function(names) {
+            loadedTransactionNames = names;
+            populateDatalist(names);
+        }).getTransactionNames();
+        
+        google.script.run.withSuccessHandler(function(data) {
+            allTransactionsData = data;
+            populateRoleTable(data);
+        }).getDashboardData();
+      }
+    }
+
+    function populateDatalist(names) {
+      const dataList = document.getElementById('transactions-list');
+      dataList.innerHTML = ''; 
+      names.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        dataList.appendChild(option);
+      });
+      checkTransactionStatus();
+    }
+
+    function checkTransactionStatus() {
+      const inputVal = document.getElementById('transaction-input').value.trim();
+      
+      const groupReceived = document.getElementById('group-received');
+      const groupFinished = document.getElementById('group-finished');
+      const groupHanded = document.getElementById('group-handed');
+      const helperNote = document.getElementById('helper-note');
+      const submitBtn = document.getElementById('submit-btn');
+
+      document.getElementById('date-received').value = "";
+      document.getElementById('date-finished').value = "";
+      document.getElementById('handed-to').value = "";
+
+      if (inputVal === "") {
+        groupReceived.classList.add('hidden');
+        groupFinished.classList.add('hidden');
+        groupHanded.classList.add('hidden');
+        submitBtn.classList.add('hidden');
+        helperNote.innerHTML = "هیڤییە ل دەستپێکێ ناڤێ مامەلەیێ بنڤیسە یان هەلبژێرە دا کو فۆڕم بارودۆخێ وێ بۆ لێژنا تە دیار بکەت.";
+        return;
+      }
+
+      let rowData = null;
+      for (let i = 0; i < allTransactionsData.length; i++) {
+        if (allTransactionsData[i][0].toString().trim() === inputVal) {
+          rowData = allTransactionsData[i];
+          break;
+        }
+      }
+
+      const checkRole = currentRole.toString().trim().toLowerCase();
+      let colStart = -1;
+      if (checkRole.includes("hwrbini") || checkRole.includes("هویربینی")) { colStart = 1; }
+      else if (checkRole.includes("amadekrdn") || checkRole.includes("ئامادە")) { colStart = 4; }
+      else if (checkRole.includes("vekrn") || checkRole.includes("ڤەکرن")) { colStart = 7; }
+      else if (checkRole.includes("shrovekrn") || checkRole.includes("شروڤە")) { colStart = 10; }
+      else if (checkRole.includes("havsangi") || checkRole.includes("هەڤسەنگی") || checkRole.includes("زێدە")) { colStart = 13; }
+
+      if (!rowData) {
+        groupReceived.classList.remove('hidden');
+        groupFinished.classList.add('hidden');
+        groupHanded.classList.add('hidden');
+        submitBtn.classList.remove('hidden');
+        helperNote.innerHTML = `<span style="color:#38a169;">ئەڤە مامەلەیەکا نوی یە. ب تنێ رێکەفتا هاتنێ تۆمار بکە بۆ وەرگرتنێ.</span>`;
+      } else {
+        if (colStart !== -1) {
+          let dIn = (rowData[colStart] || "").toString().replace("'", "").trim();
+          let dOut = (rowData[colStart + 1] || "").toString().replace("'", "").trim();
+          
+          if (colStart === 13 && (dIn.includes("ڕادەستی") || dIn.includes("لێژنا") || dIn.includes("کارکرنێ"))) {
+            dIn = ""; dOut = "";
+          }
+
+          if (dIn === "") {
+            groupReceived.classList.remove('hidden');
+            groupFinished.classList.add('hidden');
+            groupHanded.classList.add('hidden');
+            submitBtn.classList.remove('hidden');
+            helperNote.innerHTML = `<span style="color:#d69e2e;">ئەڤ مامەلەیە ژ لێژنەکا دی هاتییە. ب تنێ رێکەفتا هاتنێ بۆ لێژنا خۆ تۆمار بکە دا کو بگەهیتە دەف تە.</span>`;
+          } else if (dIn !== "" && dOut === "") {
+            groupReceived.classList.add('hidden');
+            groupFinished.classList.remove('hidden');
+            groupHanded.classList.remove('hidden');
+            submitBtn.classList.remove('hidden');
+            helperNote.innerHTML = `<span style="color:#2b6cb0;">تە پێشتر رێکەفتا هاتنێ بۆ ڤێ مامەلەیێ دیار کریە (${dIn}). نوکە ب تنێ رێکەفتا دەرکەفتنێ و لێژنا بهێت دیار بکە.</span>`;
+          } else if (dIn !== "" && dOut !== "") {
+            groupReceived.classList.add('hidden');
+            groupFinished.classList.add('hidden');
+            groupHanded.classList.add('hidden');
+            submitBtn.classList.add('hidden');
+            helperNote.innerHTML = `<span style="color:#e53e3e;">تە پێشتر ئەڤ مامەلەیە ل رێکەفتا (${dOut}) ب دوماهی ئینایە و ڕەوانە کریە. نکارێ دەستکاریێ تێدا بکەی.</span>`;
+          }
+        }
+      }
+    }
+
+    function esc(x){return String(x == null ? "" : x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+
+    function populateRoleTable(data) {
+      document.getElementById('loading-role-data').classList.add('hidden');
+      const table = document.getElementById('role-table');
+      const tbody = document.getElementById('role-table-body');
+      tbody.innerHTML = '';
+
+      const checkRole = currentRole.toString().trim().toLowerCase();
+      let colStart = -1;
+      if (checkRole.includes("hwrbini") || checkRole.includes("هویربینی")) { colStart = 1; }
+      else if (checkRole.includes("amadekrdn") || checkRole.includes("ئامادە")) { colStart = 4; }
+      else if (checkRole.includes("vekrn") || checkRole.includes("ڤەکرن")) { colStart = 7; }
+      else if (checkRole.includes("shrovekrn") || checkRole.includes("شروڤە")) { colStart = 10; }
+      else if (checkRole.includes("havsangi") || checkRole.includes("هەڤسەنگی") || checkRole.includes("زێدە")) { colStart = 13; }
+
+      let hasData = false;
+      if (data.length > 0 && colStart !== -1) {
+        data.forEach(row => {
+          const name = row[0];
+          let dIn = (row[colStart] || "").toString().replace("'", "").trim();
+          let dOut = (row[colStart + 1] || "").toString().replace("'", "").trim();
+          let handed = (row[colStart + 2] || "").toString().trim();
+          let status = (row[16] || "").toString().trim();
+
+          if (colStart === 13 && (dIn.includes("ڕادەستی") || dIn.includes("لێژنا") || dIn.includes("کارکرنێ"))) {
+            if(!status) status = dIn;
+            dIn = ""; dOut = ""; handed = "";
+          }
+
+          let matchesStatus = false;
+          if (colStart === 1 && (status.includes("هویر") || status.includes("hwrbini"))) matchesStatus = true;
+          if (colStart === 4 && (status.includes("ئامادە") || status.includes("amadekrdn"))) matchesStatus = true;
+          if (colStart === 7 && (status.includes("ڤەکر") || status.includes("vekrn"))) matchesStatus = true;
+          if (colStart === 10 && (status.includes("شروڤە") || status.includes("shrovekrn"))) matchesStatus = true;
+          if (colStart === 13 && (status.includes("هەڤسەنگی") || status.includes("havsangi"))) matchesStatus = true;
+
+          if (dIn !== "" || dOut !== "" || handed !== "" || matchesStatus) {
+            hasData = true;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td style="font-weight:700; color:#3182ce;">${esc(name || "-")}</td><td>${esc(dIn || "-")}</td><td>${esc(dOut || "-")}</td><td><span class="hand-badge">${esc(handed || "-")}</span></td><td><span class="status-badge">${esc(status || "-")}</span></td>`;
+            tbody.appendChild(tr);
+          }
+        });
+      }
+
+      if (!hasData) { tbody.innerHTML = '<tr><td colspan="5" style="color:red; font-weight:bold;">هیچ مامەلەیەک بۆ لێژنا تە نینە</td></tr>'; }
+      table.classList.remove('hidden');
+    }
+
+    function populateDashboard(data) {
+      document.getElementById('loading-dashboard').classList.add('hidden');
+      const tbodyMain = document.getElementById('dashboard-body');
+      const tbodyDetailed = document.getElementById('detailed-body');
+      tbodyMain.innerHTML = ''; tbodyDetailed.innerHTML = '';
+
+      if(data.length === 0) {
+        tbodyMain.innerHTML = '<tr><td colspan="17">هیچ مامەلەیەک نەهاتییە تۆمارکرن</td></tr>';
+        tbodyDetailed.innerHTML = '<tr><td colspan="6">هیچ پێزانین نینن</td></tr>';
+      } else {
+        data.forEach(row => {
+          const trMain = document.createElement('tr');
+          row.forEach((cellData, index) => {
+            const td = document.createElement('td');
+            if(index === 16 && cellData) td.innerHTML = `<span class="status-badge">${esc(cellData)}</span>`;
+            else if ((index === 3 || index === 6 || index === 9 || index === 12 || index === 15) && cellData) td.innerHTML = `<span class="hand-badge">${esc(cellData)}</span>`;
+            else td.innerText = cellData ? cellData.replace("'", "") : "-";
+            trMain.appendChild(td);
+          });
+          tbodyMain.appendChild(trMain);
+
+          const name = row[0] || "-";
+          const currentStage = row[16] || "نەهاتییە دیارکرن";
+          let activeCommittee = "-", dIn = "-", dOut = "-", handed = "-";
+
+          if (row[13] || row[14] || row[15]) { activeCommittee = "لێژنا هەڤسەنگی و ماوێ زێدە"; dIn = row[13]; dOut = row[14]; handed = row[15]; }
+          else if (row[10] || row[11] || row[12]) { activeCommittee = "لێژنا شروڤەکرنا تەندەران"; dIn = row[10]; dOut = row[11]; handed = row[12]; } 
+          else if (row[7] || row[8] || row[9]) { activeCommittee = "لێژنا ڤەکرنا تەندەران"; dIn = row[7]; dOut = row[8]; handed = row[9]; } 
+          else if (row[4] || row[5] || row[6]) { activeCommittee = "لێژنا ئامادەکرنا تەندەران"; dIn = row[4]; dOut = row[5]; handed = row[6]; } 
+          else if (row[1] || row[2] || row[3]) { activeCommittee = "لێژنا هویربینیێ"; dIn = row[1]; dOut = row[2]; handed = row[3]; }
+
+          if(dIn && (dIn.includes("ڕادەستی") || dIn.includes("لێژنا"))) { dIn = ""; dOut = ""; handed = ""; }
+
+          const trDetail = document.createElement('tr');
+          trDetail.innerHTML = `<td style="font-weight:700; color:#3182ce;">${esc(name)}</td><td>${esc(activeCommittee)}</td><td>${esc(dIn ? dIn.replace("'", "") : "-")}</td><td>${esc(dOut ? dOut.replace("'", "") : "-")}</td><td><span class="hand-badge">${esc(handed || "-")}</span></td><td><span class="status-badge">${esc(currentStage)}</span></td>`;
+          tbodyDetailed.appendChild(trDetail);
+        });
+      }
+      document.getElementById('dashboard-content').classList.remove('hidden');
+    }
+
+    function filterTable() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const filterStage = document.getElementById('filterStage').value;
+      const trs = document.getElementById('detailed-table').getElementsByTagName('tr');
+
+      for (let i = 1; i < trs.length; i++) {
+        const tdName = trs[i].getElementsByTagName('td')[0];
+        const tdCommittee = trs[i].getElementsByTagName('td')[1];
+        const tdStatus = trs[i].getElementsByTagName('td')[5];
+
+        if (tdName && tdCommittee && tdStatus) {
+          const matchesSearch = (tdName.textContent || tdName.innerText).toLowerCase().indexOf(searchInput) > -1;
+          const matchesFilter = filterStage === 'all' || (tdCommittee.textContent || tdCommittee.innerText).includes(filterStage) || (tdStatus.textContent || tdStatus.innerText).includes(filterStage);
+          trs[i].style.display = (matchesSearch && matchesFilter) ? "" : "none";
+        }
+      }
+    }
+
+    function submitData() {
+      const transactionName = document.getElementById('transaction-input').value.trim();
+      const dateReceived = document.getElementById('date-received').value;
+      const dateFinished = document.getElementById('date-finished').value;
+      const handedTo = document.getElementById('handed-to').value;
+
+      if(!transactionName) {
+        alert("هیڤییە ناڤێ مامەلەیێ بنڤیسە یان هەلبژێرە."); 
+        return;
+      }
+
+      const isReceivedHidden = document.getElementById('group-received').classList.contains('hidden');
+      const isFinishedHidden = document.getElementById('group-finished').classList.contains('hidden');
+
+      if(!isReceivedHidden && !dateReceived) {
+        alert("هیڤییە رێکەفتا هاتنێ بۆ لێژنا خۆ دیار بکە.");
+        return;
+      }
+
+      if(!isFinishedHidden && (!dateFinished || !handedTo)) {
+        alert("هیڤییە رێکەفتا رۆیشتنێ و لێژنا بهێت دیار بکە.");
+        return;
+      }
+
+      document.getElementById('status-msg').innerHTML = "<span style='color:#3182ce;'>یێ دهێتە پاشەکەوتکرن...</span>";
+
+      google.script.run.withSuccessHandler(function(response) {
+        document.getElementById('status-msg').innerHTML = "<span style='color:#38a169;'>" + response + "</span>";
+        
+        document.getElementById('transaction-input').value = "";
+        checkTransactionStatus(); 
+        
+        google.script.run.withSuccessHandler(function(names) {
+            loadedTransactionNames = names;
+            populateDatalist(names);
+        }).getTransactionNames();
+        
+        google.script.run.withSuccessHandler(function(data) {
+            allTransactionsData = data;
+            populateRoleTable(data);
+        }).getDashboardData();
+
+      }).updateTransaction(transactionName, dateReceived, dateFinished, handedTo, currentRole);
+    }
+
+    function logout() {
+      if(window.transactionsLogout) window.transactionsLogout();
+      document.getElementById('login-section').classList.remove('hidden');
+      document.getElementById('main-section').classList.add('hidden');
+      document.getElementById('username').value = "";
+      document.getElementById('password').value = "";
+      document.getElementById('login-msg').innerHTML = "";
+      currentRole = "";
+      document.getElementById('transaction-input').value = "";
+      checkTransactionStatus();
+    }
+  </script>
+<script src="ziata-shell.js?v=31"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="ziata-supabase-config.js"></script><script src="ziata-auth.js?v=37"></script><script>window.addEventListener("ziata-ready",()=>document.body.style.visibility="visible")</script><script src="/ZIATA/pwa-register.js" defer></script></body>
+</html>
