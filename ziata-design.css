@@ -185,3 +185,58 @@ html body .zi-push-user,html body .zi-push-admin,html body .zi-password-card,htm
 html body .zi-v36-panel,html body .zi-v36-stat{border-radius:var(--r)}
 @media(max-width:520px){html body input,html body select,html body textarea{font-size:16px!important}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+
+/* ZIATA V61 — government eagle brand. Palette sampled from supplied emblem.
+   Non-destructive theme extension: preserve layouts, IDs and workflows. */
+:root{
+  --n9:#07162d;--n8:#0b203d;--n7:#17365b;
+  --brass:#d8a523;--brass-d:#a67a11;--brass-l:#fff3cf;
+  --paper:#f5f7fa;--surface:#fff;--line:#dbe3ec;
+  --ink:#0d2342;--muted:#65758a;
+  --zi-navy:#0b203d;--zi-deep:#07162d;--zi-gold:#d8a523;
+  --zi-bg:#f5f7fa;--zi-border:#dbe3ec;--zi-text:#0d2342;
+}
+html body{background:var(--paper)!important;color:var(--ink)}
+html body .zi-desktop-sidebar{background:linear-gradient(180deg,#0b203d 0%,#102f51 100%)!important;border-inline-start-color:#d8a523!important}
+html body .zi-side-brand{border-bottom-color:#e8bb4b35}
+html body .zi-side-brand img{border:1px solid #d8a52375;background:#fff!important;object-fit:contain}
+html body .zi-side-link.zi-active,html body .zi-side-link[aria-current="page"]{background:linear-gradient(90deg,#eec757,#c58a11)!important;color:#0b203d!important;font-weight:800!important}
+html body .zi-side-link:hover{background:#ffffff17!important;color:#fff!important}
+html body .zi-appbar{background:#fff!important;border-bottom:2px solid #e0b13d!important}
+html body .zi-appbar-brand strong,.zi-appbar-title{color:#0b203d}
+html body .zi-appbar-brand img{object-fit:contain;filter:none}
+html body .zi-home-link{border-color:#e4d3aa;color:#0b203d}
+html body .zi-welcome{
+  background:linear-gradient(113deg,#0b203d 0%,#14355b 70%,#0b203d 100%)!important;
+  border:1px solid #cc9c31!important;border-radius:20px!important;
+  box-shadow:0 13px 34px #0b203d1b!important;overflow:hidden;
+}
+html body .zi-welcome:before{background:radial-gradient(circle,#e5ae3630,transparent 70%)!important}
+html body .zi-welcome .zd-org{color:#f5d783!important}
+html body .zi-welcome h1{color:#fff!important}
+html body .zi-welcome .seal{background:#fff;border:2px solid #e0b13d;border-radius:18px;padding:7px;box-shadow:0 10px 30px #0002;object-fit:contain}
+html body .zi-install-btn,html body .zd-action:hover{border-color:#e3b645!important}
+html body .zi-install-btn{background:linear-gradient(110deg,#f6da76,#dca820)!important;color:#0b203d!important;font-weight:800!important}
+html body .zd-head h2,html body .zi-section-heading h2{color:#0b203d}
+html body .zd-pill{background:#fff4d5!important;color:#765413!important;border:1px solid #e9cc7b!important}
+html body .zd-tile,html body .zd-panel,html body .zd-strip{
+  border:1px solid #dce4ed!important;
+  background:#fff!important;box-shadow:0 8px 22px #10233e09!important
+}
+html body .zd-tile:hover,html body .zd-action:hover{
+  border-color:#deb74f!important;box-shadow:0 11px 26px #be9a3420!important
+}
+html body .zd-tile .ic{background:#fff1c8!important;color:#a3780e!important;border-color:#ead298!important}
+html body .zd-tile strong{color:#102a47}
+html body .zi-notice-toggle{border-color:#e3ca87!important;background:#fff!important;color:#0b203d!important}
+html body .zi-notice-toggle[aria-expanded="true"]{background:#fff6dc!important}
+html body .zi-notice-popover-title{background:#0b203d!important;border-bottom:3px solid #d8a523}
+html body :focus-visible{outline-color:#d8a523!important}
+html body .zi-mobile-nav{border-top:2px solid #e3b645!important}
+html body .zi-mobile-link.zi-active{color:#926c0d!important;background:#fff3cf!important}
+@media(max-width:600px){
+  html body .zi-welcome{border-radius:15px!important}
+  html body .zi-welcome .seal{max-width:100px;max-height:100px}
+  html body .zi-side-brand img{width:42px;height:42px}
+}
