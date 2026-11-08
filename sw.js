@@ -54,8 +54,8 @@ self.addEventListener('push', event => {
   const target = notificationTarget(payload);
   event.waitUntil(self.registration.showNotification(title, {
     body,
-    icon: '/ZIATA/icons/icon-192.png',
-    badge: '/ZIATA/icons/icon-192.png',
+    icon: '/ZIATA/icons/icon-192.png?v=63',
+    badge: '/ZIATA/icons/icon-192.png?v=63',
     tag: 'ziata-' + (payload.notification_id || Date.now()),
     data: {url: target}
   }));
