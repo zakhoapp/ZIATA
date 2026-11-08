@@ -38,7 +38,7 @@ body:not(.zi-home) input:focus,body:not(.zi-home) select:focus,body:not(.zi-home
 @media(max-width:680px){.zi-dashboard{padding:14px 13px 115px!important}.zi-welcome{padding:19px 16px!important;min-height:0;gap:12px;border-radius:18px!important}.zi-welcome h1{font-size:19px!important}.zi-welcome .seal{width:61px!important;height:61px!important;align-self:flex-start}.zi-section-heading{margin-top:24px!important}.zi-grid{grid-template-columns:1fr!important;gap:12px!important}.zi-tile{min-height:155px!important;padding:16px!important}.zi-tile h3{font-size:16px!important}.zi-account-actions{top:auto;bottom:86px;left:12px}.zi-stitch-note{font-size:11px;padding:11px 13px}.zi-install-btn{max-width:100%;white-space:normal;text-align:center}}
 @media(min-width:681px) and (max-width:1050px){.zi-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 /* Hide admin links and cards before auth check completes to prevent flash */
-html:not([data-zi-role=admin]) a[href="projects.html"],html:not([data-zi-role=admin]) a[href="committees.html"],html:not([data-zi-role=admin]) a[href="letters.html"]{display:none!important}
+/* V71: System card visibility is governed by ziata-auth.js Supabase permissions. */
 
 /* V31 — unified navigation and module headers */
 .zi-module-page .zi-legacy-header{display:none!important}
