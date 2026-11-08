@@ -65,7 +65,7 @@ window.ziataLogout=async()=>{await sb.auth.signOut();cookie(null);location.repla
 function node(tag,attrs={},html=''){const el=document.createElement(tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,v);el.innerHTML=html;return el}
 function banner(message){let b=document.getElementById('ziata-auth-banner');if(!b){b=node('div',{id:'ziata-auth-banner',class:'zi-auth-banner'});document.body.prepend(b)}b.textContent=message;}
 function secureLinks(allowed){document.querySelectorAll('a[href]').forEach(a=>{const path=new URL(a.href,location.href).pathname.split('/').pop().replace(/\.html$/,'');if(keys.includes(path)&&!allowed.includes(path)){a.hidden=true;a.style.setProperty('display','none','important');a.setAttribute('aria-hidden','true')}})}
-async function init(){if(page==='login.html'||page==='register.html'||page==='reset-password.html')return;let ctx;try{ctx=await context()}catch(e){banner('نەشیام گرێدانێ دگەل Supabase پێک بینم. دووبارە هەوڵ بدە.');return}
+async function init(){if(page==='login.html'||page==='register.html'||page==='reset-password.html'||page==='update-password.html')return;let ctx;try{ctx=await context()}catch(e){banner('نەشیام گرێدانێ دگەل Supabase پێک بینم. دووبارە هەوڵ بدە.');return}
 if(!ctx.session){location.replace('/ZIATA/login.html?next='+encodeURIComponent(page));return}
 if(!ctx.profile||ctx.profile.status!=='approved'){if(page!=='pending.html')location.replace('/ZIATA/pending.html');return}
 if(page==='pending.html'){location.replace('/ZIATA/index.html');return}
