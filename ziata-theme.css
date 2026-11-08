@@ -16,10 +16,7 @@ body>header:not(.zi-appbar){border-bottom:2px solid var(--zi-gold)!important}bod
 
 .zi-logout{position:fixed;bottom:90px;left:15px;z-index:9999;border:1px solid #d6b16a;border-radius:10px;background:#102d45;color:white;padding:9px 14px;font:inherit;cursor:pointer;box-shadow:0 4px 15px #0002}@media(min-width:900px){.zi-logout{bottom:20px}}
 
-/* V27: public employee dashboard, optional administrator login */
-html:not([data-zi-role="admin"]) a[href="projects.html"],
-html:not([data-zi-role="admin"]) a[href="committees.html"],
-html:not([data-zi-role="admin"]) a[href="letters.html"]{display:none!important}
+/* V72: System visibility follows authenticated permissions, not legacy role-based CSS. */
 .zi-account-actions{position:fixed;top:12px;left:15px;z-index:10000}
 .zi-account-button{background:#d5ad66;color:#102a40;border:1px solid #f3dcae;border-radius:11px;padding:10px 15px;font:inherit;font-weight:800;box-shadow:0 5px 16px #0b22372b;cursor:pointer}
 @media(max-width:680px){.zi-account-actions{top:auto;bottom:86px;left:12px}.zi-account-button{font-size:12px;padding:9px 12px}}
