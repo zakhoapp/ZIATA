@@ -36,8 +36,8 @@ window.ziataProxy = async (module, payload) => {
   });
 };
 
-const keys=['transactions','permits','engineers','projects','committees','letters'];
-const names=['برێڤەبرنا مامەلەیان','وەرگرتنا مۆڵەتێ','دەرکەفتنا ئەندازیاران','پولینکرنا پرۆژان','لێژنە و پرۆژە','ئەرشیفا نڤیساران'];
+const keys=['transactions','permits','engineers','projects','committees','letters','advances'];
+const names=['برێڤەبرنا مامەلەیان','وەرگرتنا مۆڵەتێ','دەرکەفتنا ئەندازیاران','پولینکرنا پرۆژان','لێژنە و پرۆژە','ئەرشیفا نڤیساران','پێشینەیان'];
 const page=location.pathname.split('/').pop()||'index.html';
 const cookie=(token)=>{document.cookie='ziata_token='+(token?encodeURIComponent(token):'')+'; Path=/; SameSite=Lax; Secure; Max-Age='+(token?'3600':'0')};
 async function session(){const {data}=await sb.auth.getSession();cookie(data.session?.access_token||'');return data.session;}
