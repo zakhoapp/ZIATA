@@ -40,5 +40,12 @@
     "icon": "hard-hat",
     "url": "engineers.html",
     "description": "سیستەمێ دەرکەفتنا ئەندازیاران"
+  },
+  {
+    "id": "advances",
+    "name": "سیستەمێ پێشینەیان",
+    "icon": "wallet",
+    "url": "advances.html",
+    "description": "سیستەمێ ژمارە 7 — تۆمارکرنا پێشینەیان و داشبۆرد"
   }
 ]
