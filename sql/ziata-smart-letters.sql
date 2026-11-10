@@ -45,7 +45,7 @@ alter table public.ziata_letter_events enable row level security;
 -- Admin read access only, plus a recipient's approved letters.
 create policy "smart_letters_admin_read" on public.ziata_smart_letters for select to authenticated using (
  exists(select 1 from public.profiles p where p.id=auth.uid() and p.is_admin=true and p.status='approved')
- or (approval_status='approved' and exists(select 1 from public.ziata_letter_recipients r where r.letter_id=id and r.user_id=auth.uid() and r.approved=true))
+
 );
 create policy "smart_recipients_admin_read" on public.ziata_letter_recipients for select to authenticated using (
  exists(select 1 from public.profiles p where p.id=auth.uid() and p.is_admin=true and p.status='approved')
