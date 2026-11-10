@@ -35,3 +35,20 @@ grant select,insert,delete on public.ziata_notification_senders to authenticated
 -- const authorized = profile?.status === 'approved' && (profile.is_admin || !!sender);
 -- if (!authorized) return new Response(JSON.stringify({error:'Forbidden'}), {status:403});
 -- Do NOT grant access to other admin actions.
+
+-- Grant the requested secretary account by email, without exposing a UUID.
+-- Run this after the secretary has registered and been approved.
+insert into public.ziata_notification_senders(user_id,granted_by)
+select u.id, auth.uid()
+from auth.users u
+join public.profiles p on p.id=u.id
+where lower(u.email)=lower('siyabend.sindy@gmail.com')
+  and p.status='approved'
+on conflict (user_id) do nothing;
+
+-- Verify:
+select u.email, p.status, s.granted_at
+from public.ziata_notification_senders s
+join auth.users u on u.id=s.user_id
+join public.profiles p on p.id=s.user_id
+where lower(u.email)=lower('siyabend.sindy@gmail.com');
