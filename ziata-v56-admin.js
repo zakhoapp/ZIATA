@@ -14,13 +14,13 @@ async function refresh(){
   ]);
   if(ne)throw ne;if(pe)throw pe;
   const pendingIds=new Set((pending||[]).map(x=>x.id));
-  const visible=(notes||[]).filter(n=>pendingIds.has(n.user_id));
-  count.textContent=String(pendingIds.size);
+  const visible=notes||[];
+  count.textContent=String(visible.length);
   el.replaceChildren();
-  if(!visible.length){el.textContent=pendingIds.size?'حسابێن چاوەڕێ هەن، ب لیستا فەرمانبەران دا بگەڕە.':'هیچ حسابەک چاوەڕێی پەسەندکرنێ نینە';return}
+  if(!visible.length){el.textContent='هێشتا ئاگەهداریەکا تۆمارکرنا حسابێ نوی نینە';return}
   for(const n of visible){
    const item=document.createElement('div');item.className='zi-signup-row';
-   const a=document.createElement('a');a.href='#employees';a.textContent='👤 '+(n.full_name||'فەرمانبەرێ نوی')+' — '+new Date(n.created_at).toLocaleString();
+   const a=document.createElement('a');a.href='#employees';a.textContent='👤 '+(n.full_name||'فەرمانبەرێ نوی')+' · '+(pendingIds.has(n.user_id)?'چاوەڕێی پەسەندکرنێ':'هاتە چارەسەرکرن')+' — '+new Date(n.created_at).toLocaleString();
    a.addEventListener('click',async()=>{await sb.from('ziata_signup_notifications').update({is_read:true}).eq('id',n.id);const f=document.getElementById('zi-admin-filter');if(f){f.value='pending';f.dispatchEvent(new Event('change'))}});
    item.append(a);el.append(item);
   }
