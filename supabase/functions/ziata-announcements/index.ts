@@ -49,6 +49,26 @@ Deno.serve(async req => {
     }
 
     const input = await req.json();
+    if (input.action === 'push_stats') {
+      const { data: people, error: peopleError } = await db.from('profiles')
+        .select('id,full_name').eq('status','approved').order('full_name').limit(2000);
+      if (peopleError) throw peopleError;
+      const { data: devices, error: devicesError } = await db.from('ziata_push_subscriptions')
+        .select('user_id').limit(10000);
+      if (devicesError) throw devicesError;
+      const registered = new Set((devices || []).map(d => d.user_id));
+      const employees = (people || []).map(p => ({
+        id:p.id, full_name:p.full_name,
+        push_registered:registered.has(p.id)
+      }));
+      return respond({
+        total:employees.length,
+        registered:employees.filter(p=>p.push_registered).length,
+        unregistered:employees.filter(p=>!p.push_registered).length,
+        employees,
+        note:'Registration only; delivery and device permission are not verified.'
+      });
+    }
     if (input.action === 'users') {
       const { data, error } = await db.from('profiles')
         .select('id,full_name').eq('status', 'approved').order('full_name').limit(2000);
