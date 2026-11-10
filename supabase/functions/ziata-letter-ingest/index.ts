@@ -15,31 +15,38 @@ Deno.serve(async req=>{
   const id=String(input.file_id||''),name=String(input.name||'').slice(0,250),mime=String(input.mime||''),base64=String(input.base64||'');
   if(!/^[a-zA-Z0-9_-]{10,150}$/.test(id)||!name||!['application/pdf','image/jpeg','image/png'].includes(mime))return answer({error:'Invalid file metadata'},400);
   if(!base64||base64.length>Math.ceil(MAX_BYTES*4/3)+100)return answer({error:'File too large'},413);
-  const url=Deno.env.get('SUPABASE_URL')!,key=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,apiKey=Deno.env.get('OPENAI_API_KEY');
+  const url=Deno.env.get('SUPABASE_URL')!,key=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,apiKey=Deno.env.get('GEMINI_API_KEY');
   if(!apiKey)return answer({error:'AI key not configured'},503);
   const db=createClient(url,key,{auth:{persistSession:false}});
   const {data:existing,error:checkError}=await db.from('ziata_smart_letters').select('id').eq('drive_file_id',id).maybeSingle();
   if(checkError)throw checkError;
-  if(existing)return answer({ok:true,duplicate:true,letter_id:existing.id});
-  const {data:letter,error:insertError}=await db.from('ziata_smart_letters').insert({
+  if(existing){
+   const {data:previous,error:prevErr}=await db.from('ziata_smart_letters').select('id,ai_status,approval_status').eq('id',existing.id).single();
+   if(prevErr)throw prevErr;
+   if(previous.approval_status!=='pending'||previous.ai_status!=='failed')return answer({ok:true,duplicate:true,letter_id:existing.id,ai_status:previous.ai_status});
+   const {error:resetErr}=await db.from('ziata_smart_letters').update({ai_status:'processing'}).eq('id',existing.id).eq('ai_status','failed');
+   if(resetErr)throw resetErr;
+  }
+  const {data:letter,error:insertError}=existing?{data:{id:existing.id},error:null}:await db.from('ziata_smart_letters').insert({
    drive_file_id:id,drive_name:name,drive_mime:mime,drive_url:'https://drive.google.com/file/d/'+encodeURIComponent(id)+'/view',
    ai_status:'processing',approval_status:'pending'
   }).select('id').single();
   if(insertError||!letter)throw insertError||Error('Insert failed');
   try{
-   const attachment=mime==='application/pdf'
-    ?{type:'input_file',filename:name,file_data:'data:application/pdf;base64,'+base64}
-    :{type:'input_image',image_url:'data:'+mime+';base64,'+base64,detail:'high'};
    const prompt='Read this official administrative letter in Kurdish Badini/Sorani or Arabic. Extract ONLY visible facts. Return valid JSON with keys letter_type,letter_number,letter_date,subject,employee_names,summary. employee_names must be an array of full names of employees who are clearly SUBJECTS or ADDRESSEES of this letter (not signatories, directors, organizations or incidental mentions). Do not invent names. If uncertain, omit. All other fields strings. No markdown.';
-   const res=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{'Authorization':'Bearer '+apiKey,'Content-Type':'application/json'},body:JSON.stringify({
-    model:Deno.env.get('ZIATA_AI_MODEL')||'gpt-4.1-mini',
-    input:[{role:'user',content:[{type:'input_text',text:prompt},attachment]}],
-    text:{format:{type:'json_object'}},max_output_tokens:1300,store:false
-   })});
+   const model=Deno.env.get('ZIATA_GEMINI_MODEL')||'gemini-2.5-flash';
+   const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{
+    method:'POST',
+    headers:{'x-goog-api-key':apiKey,'Content-Type':'application/json'},
+    body:JSON.stringify({
+     contents:[{role:'user',parts:[{text:prompt},{inline_data:{mime_type:mime,data:base64}}]}],
+     generationConfig:{responseMimeType:'application/json',maxOutputTokens:1800,temperature:0}
+    })
+   });
    const payload=await res.json();
-   if(!res.ok)throw Error('AI API '+res.status+': '+JSON.stringify(payload).slice(0,300));
-   const raw=(payload.output||[]).flatMap((o:any)=>o.content||[]).filter((c:any)=>c.type==='output_text').map((c:any)=>c.text).join('');
-   if(!raw)throw Error('AI returned no text');
+   if(!res.ok)throw Error('Gemini API '+res.status+': '+JSON.stringify(payload).slice(0,350));
+   const raw=(payload.candidates||[]).flatMap((x:any)=>x.content?.parts||[]).map((p:any)=>p.text||'').join('');
+   if(!raw)throw Error('Gemini returned no text: '+JSON.stringify(payload).slice(0,250));
    const extracted=JSON.parse(raw);
    const names=[...new Set((Array.isArray(extracted.employee_names)?extracted.employee_names:[]).filter((n:unknown)=>typeof n==='string').map((n:string)=>n.trim()).filter(Boolean))].slice(0,60);
    const {data:profiles,error:profilesError}=await db.from('profiles').select('id,full_name').eq('status','approved').limit(2000);
