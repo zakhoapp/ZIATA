@@ -28,7 +28,7 @@ function editOfficial(item){
 }
 function renderOfficial(){
  const box=$('official-entries');box.replaceChildren();
- if(!official.length){box.append(text('p','هیچ تۆمارەکا فەرمی ب حسابێ تە نەهاتیە گرێدان. ئەگەر تۆمار ب ناڤێ تە هەیە، ئەدمین پێدڤیە حسابێ تە ب وێ تۆمارێ گرێبدەت.'));return}
+ if(!official.length){box.append(text('p','هێشتا تۆمارەک ب حسابێ تە نەهاتیە گرێدان. دشێی پرۆژە یان لێژنەیەکا نوی زێدە بکەی.'));return}
  for(const item of official){const card=document.createElement('article');card.className='entry';card.append(text('h3',(item.entry_type==='project'?'پرۆژە: ':'لێژنە: ')+item.title));
  const match=records.find(r=>r.entry_type===item.entry_type&&clean(r.title).toLocaleLowerCase()===clean(item.title).toLocaleLowerCase());
  const badge=text('span',match?statusText(match.work_status):'فەرمی · رەوش نەهاتیە دیارکرن');badge.className='entry-status'+(match?.work_status==='completed'?' done':'');card.append(badge);
@@ -97,11 +97,10 @@ async function init(){
    try{
     // Write the membership to the official committee table through a guarded RPC.
     // If this is an existing official record, preserve the other membership field.
-    const existing=official.find(x=>x.record_id===officialEditId&&x.entry_type!==payload.entry_type);
-    const peerTitles=official.filter(x=>x.record_id===officialEditId&&x.entry_type!==payload.entry_type).map(x=>x.title);
+    const siblings=official.filter(x=>x.record_id===officialEditId);
     const rpcPayload={p_action:officialEditId?'update':'create',p_record_id:officialEditId||null,
-      p_committee:payload.entry_type==='committee'?title:peerTitles.filter(x=>existing?.entry_type==='committee').join('\\n'),
-      p_projects:payload.entry_type==='project'?title:peerTitles.filter(x=>existing?.entry_type==='project').join('\\n'),
+      p_committee:officialEditId?siblings.filter(x=>x.entry_type==='committee').map(x=>x.title).join('\\n'):(payload.entry_type==='committee'?title:''),
+      p_projects:officialEditId?siblings.filter(x=>x.entry_type==='project').map(x=>x.title).join('\\n'):(payload.entry_type==='project'?title:''),
       p_notes:''};
     const officialWrite=await window.ziataSB.rpc('ziata_my_official_membership',rpcPayload);
     if(officialWrite.error)throw officialWrite.error;
