@@ -1,6 +1,6 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id),TABLE='ziata_committee_records';
-let started=false,engineers=[],selected='',allowed=false;
+let started=false,engineers=[],selected='',allowed=false,selfEntries=[],ownName='';
 const clean=s=>String(s??'').replace(/\s+/g,' ').trim();
 const keyName=s=>clean(s).toLocaleLowerCase();
 const types=s=>[...new Set(String(s||'').split(/\r?\n|؛|;/).map(clean).filter(Boolean))];
@@ -27,6 +27,14 @@ function build(rows){
   const profile=byName.get(key);profile.records++;
   for(const value of types(item.committee_type))profile.committees.add(value);
   for(const value of projects(item.projects_text))profile.projects.add(value);
+ }
+ // Self-reported entries are shown separately from official committee data.
+ const ownKey=keyName(ownName);
+ if(ownKey && selfEntries.length){
+  if(!byName.has(ownKey))byName.set(ownKey,{key:ownKey,name:ownName,committees:new Set(),projects:new Set(),records:0});
+  const own=byName.get(ownKey);
+  own.selfEntries=selfEntries;
+  for(const r of selfEntries){if(r.entry_type==='project')own.projects.add(r.title);else own.committees.add(r.title)}
  }
  engineers=[...byName.values()].sort((a,b)=>a.name.localeCompare(b.name));
  $('zi-v78-engineers').textContent=engineers.length;
@@ -64,6 +72,13 @@ function renderDetail(profile){
   const box=el('div');box.append(el('strong','',num),el('span','',name));stats.append(box);
  }
  container.append(back,title,stats);
+ if(profile.selfEntries?.length){
+  const block=el('section','zi-v78-list');block.append(el('h3','','زانیاریێن من یێن خۆ-تۆمارکری'));
+  block.append(el('p','','ئەڤ زانیارییە ژ لایێ فەرمانبەری هاتینە زێدەکرن و جودانە ژ تۆمارێن فەرمی.'));
+  const ul=el('ul');
+  for(const r of profile.selfEntries)ul.append(el('li','',(r.entry_type==='project'?'پرۆژە: ':'لێژنە: ')+r.title+(r.role_name?' — '+r.role_name:'')));
+  block.append(ul);container.append(block);
+ }
  for(const [heading,values,empty] of [['لێژنەیێن ئەندازیاری',[...profile.committees],'هیچ لێژنەیەک نەهاتیە تۆمارکرن'],['پرۆژەیێن گرێدای',[...profile.projects],'هیچ پرۆژەیەک نەهاتیە تۆمارکرن']]){
   const block=el('section','zi-v78-list');block.append(el('h3','',heading));
   if(!values.length)block.append(el('p','',empty));
@@ -90,7 +105,17 @@ async function init(){
  if(!allowed){updateStatus('دەستهەلاتا دیتنا پروفایلێن ئەندازیاران نینە. رێپێدانا لێژنان پێدڤییە.',true);return;}
  $('zi-v78-panel').hidden=false;
  $('zi-v78-search').addEventListener('input',render);$('zi-v78-type').addEventListener('change',render);
- try{const rows=await fetchRows(window.ziataSB);build(rows);
+ try{
+  // Only merge the signed-in employee's entries into their own directory profile.
+  // Do not infer other employees' identities from matching names.
+  const me=ctx.profile?.full_name||'';
+  ownName=clean(me);
+  if(ctx.session?.user?.id){
+   const own=await window.ziataSB.from('ziata_professional_entries').select('entry_type,title,role_name').eq('user_id',ctx.session.user.id);
+   if(!own.error)selfEntries=own.data||[];
+   else console.warn('Self-managed entries unavailable until SQL is installed:',own.error.message);
+  }
+  const rows=await fetchRows(window.ziataSB);build(rows);
   const requested=keyName(new URLSearchParams(location.search).get('name')||'');
   if(requested&&engineers.some(x=>x.key===requested)){selected=requested;render();}
   updateStatus('زانیاریێن پیشەیی ژ Supabase هاتنە بارکرن.');
