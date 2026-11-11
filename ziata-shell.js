@@ -10,7 +10,17 @@ function applyCommitteeNavigation(ctx){
   a.classList.toggle('zi-active',(admin||viewer)?page==='committees.html':page==='my-professional-profile.html');
  }
 }
-window.addEventListener('ziata-ready',e=>applyCommitteeNavigation(e.detail));
+window.addEventListener('ziata-ready',e=>{
+ applyCommitteeNavigation(e.detail);
+ const ctx=e.detail;
+ if(!ctx?.profile?.is_admin&&!ctx?.committeeViewer&&!sidebar.querySelector('a[href="smart-letter-notifications.html"]')){
+  const a=document.createElement('a');a.className='zi-side-link'+(page==='smart-letter-notifications.html'?' zi-active':'');
+  a.href='smart-letter-notifications.html';
+  a.innerHTML='<span aria-hidden="true">📨</span><span>نڤیسارێن زیرەک</span>';
+  sidebar.insertBefore(a,sidebar.querySelector('.zi-side-footer'));
+  a.addEventListener('click',()=>toggleDrawer(false));
+ }
+});
 const shade=document.createElement('div');shade.className='zi-drawer-shade';document.body.appendChild(shade);function toggleDrawer(open){document.body.classList.toggle('zi-drawer-open',open);menuBtn.setAttribute('aria-expanded',String(open));menuBtn.textContent=open?'✕':'☰'}menuBtn.onclick=()=>toggleDrawer(!document.body.classList.contains('zi-drawer-open'));shade.onclick=()=>toggleDrawer(false);sidebar.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>toggleDrawer(false)));document.addEventListener('keydown',e=>{if(e.key==='Escape')toggleDrawer(false)});
 const bottom=document.createElement('nav');bottom.className='zi-mobile-nav';bottom.setAttribute('aria-label','سیستەمێن ئیدارێ');bottom.innerHTML=links.map(x=>'<a class="zi-mobile-link '+(x[0]===page?'zi-active':'')+'" href="'+x[0]+'" '+(x[0]===page?'aria-current="page"':'')+'>'+svg(x[2])+'<span>'+x[1]+'</span></a>').join('');/* V34: no bottom navigation */
 if(page!=='index.html'){document.body.classList.add('zi-module-page');
