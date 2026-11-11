@@ -4,7 +4,7 @@ const page=location.pathname.split('/').pop()||'index.html';const current=links.
 const top=document.createElement('div');top.className='zi-appbar';top.innerHTML='<a class="zi-appbar-brand" href="index.html"><img src="logo.webp" alt="لوگۆی ئیدارا سەربەخۆ یا زاخۆ"><span><strong>ئیدارا سەربەخۆ یا زاخۆ</strong><small>کاروبارێن تەکنیکی · ZIATA</small></span></a><div class="zi-appbar-title">'+(page==='index.html'?'داشبۆردا سەرەکی':'<a href="index.html">داشبۆرد</a><i>‹</i><span>'+current[1]+'</span>')+'</div>';document.body.insertBefore(top,document.body.firstChild);const menuBtn=document.createElement('button');menuBtn.type='button';menuBtn.className='zi-menu-toggle';menuBtn.setAttribute('aria-label','ڤەکرنا مینیوێ');menuBtn.setAttribute('aria-expanded','false');menuBtn.innerHTML='☰';top.prepend(menuBtn);
 const sidebar=document.createElement('aside');sidebar.className='zi-desktop-sidebar';sidebar.setAttribute('aria-label','مێنوویا سیستەمان');sidebar.innerHTML='<a class="zi-side-brand" href="index.html"><img src="logo.webp" alt=""><span><strong>ئیدارا سەربەخۆ یا زاخۆ</strong><small>کاروبارێن تەکنیکی · ZIATA</small></span></a><div class="zi-side-label">سیستەمێن ئیدارێ</div>'+links.map(x=>'<a class="zi-side-link '+(x[0]===page?'zi-active':'')+'" href="'+x[0]+'" '+(x[0]===page?'aria-current="page"':'')+'>'+svg(x[2])+'<span>'+x[1]+'</span></a>').join('')+'<div class="zi-side-footer">ZAKHO INDEPENDENT ADMINISTRATION<br>© 2026 · Technical Affairs</div>';document.body.appendChild(sidebar);
 function applyCommitteeNavigation(ctx){
- const admin=!!ctx?.profile?.is_admin;const viewer=!!ctx?.committeeViewer;for(const a of sidebar.querySelectorAll('a[href="smart-letter-notifications.html"]')){a.hidden=admin;a.style.display=admin?'none':'';}
+ const admin=!!ctx?.profile?.is_admin;const viewer=!!ctx?.committeeViewer;for(const a of sidebar.querySelectorAll('a[href="smart-letter-notifications.html"]')){const allowed=admin||!!ctx?.allowed?.includes('smart-letter-notifications');a.hidden=!allowed;a.style.display=allowed?'':'none';}
  for(const a of sidebar.querySelectorAll('a[href="committees.html"]')){
   if(!admin&&!viewer){a.href='my-professional-profile.html';const span=a.querySelector('span');if(span)span.textContent='لێژنە و پرۆژەیێن من'}
   a.classList.toggle('zi-active',(admin||viewer)?page==='committees.html':page==='my-professional-profile.html');
@@ -13,7 +13,7 @@ function applyCommitteeNavigation(ctx){
 window.addEventListener('ziata-ready',e=>{
  applyCommitteeNavigation(e.detail);
  const ctx=e.detail;
- if(!ctx?.profile?.is_admin&&!sidebar.querySelector('a[href="smart-letter-notifications.html"]')){
+ if(ctx?.allowed?.includes('smart-letter-notifications')&&!sidebar.querySelector('a[href="smart-letter-notifications.html"]')){
   const a=document.createElement('a');a.className='zi-side-link'+(page==='smart-letter-notifications.html'?' zi-active':'');
   a.href='smart-letter-notifications.html';
   a.innerHTML='<span aria-hidden="true">📨</span><span>نڤیسارێن زیرەک</span>';
