@@ -28,7 +28,7 @@ function editOfficial(item){
 }
 function renderOfficial(){
  const box=$('official-entries');box.replaceChildren();
- if(!official.length&&!unlinked.length){box.append(text('p','هیچ تۆمارەک ب حساب یان ناڤێ تە نەهاتە دیتن.'));return}
+ if(!official.length&&!unlinked.length){box.append(text('p','هیچ تۆمارەک نەهاتە دیتن. ئەگەر د پروفایلێ سەرەکی دا تۆمار هەبن، پێدڤیە دەستهەلاتا خوێندنا خشتەیێ ب Supabase بهێتە پشکنین.'));return}
  for(const item of unlinked){const card=document.createElement('article');card.className='entry';card.append(text('h3',(item.entry_type==='project'?'پرۆژە: ':'لێژنە: ')+item.title));card.append(text('p','ب ناڤێ تە تۆمارکریە، بەلێ هێشتا ب حسابێ تە نەهاتیە گرێدان. بۆ دەستکاریکرنێ، ئەدمین پێدڤیە حسابێ تە گرێبدەت.'));box.append(card)}
  for(const item of official){const card=document.createElement('article');card.className='entry';card.append(text('h3',(item.entry_type==='project'?'پرۆژە: ':'لێژنە: ')+item.title));
  const match=records.find(r=>r.entry_type===item.entry_type&&clean(r.title).toLocaleLowerCase()===clean(item.title).toLocaleLowerCase());
@@ -66,7 +66,10 @@ async function fetchCatalog(){
   if(error)throw error;rows.push(...(data||[]));if(!data||data.length<500)break;
  }
  committees=unique(rows.flatMap(r=>String(r.committee_type||'').split(/\r?\n|؛|;/)));
- const mine=rows.filter(r=>r.employee_id===uid);
+ // Query linked records directly: avoids page limits and unrelated row policies.
+ const linked=await window.ziataSB.from(source).select('id,staff_name,employee_id,committee_type,projects_text').eq('employee_id',uid);
+ if(linked.error)throw new Error('نەشیا تۆمارێن ب UUID گرێدای بخوینیت: '+linked.error.message);
+ const mine=linked.data||[];
  // Name matching is display-only: never authorize edits by name.
  // Exclude records explicitly linked to another account.
  const myName=clean(window.ziataMyFullName||'').toLocaleLowerCase();
@@ -96,7 +99,7 @@ async function init(){
   $('entry-type').addEventListener('change',()=>updateChoices());
   $('entry-choice').addEventListener('change',toggleCustom);
   $('cancel').onclick=clear;
-  try{await fetchCatalog()}catch(e){msg('نەشیا لیستا پرۆژە و لێژنان بار بکەت: '+e.message,true)}
+  try{await fetchCatalog()}catch(e){msg('نەشیا لیستا پرۆژە و لێژنان بار بکەت: '+e.message,true);$('official-entries').textContent='خەلەتییا بارکرنێ: '+e.message;return}
   updateChoices();
   $('profile-form').onsubmit=async e=>{
    e.preventDefault();
