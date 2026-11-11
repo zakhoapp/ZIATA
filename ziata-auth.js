@@ -101,6 +101,14 @@ if(!ctx.profile.is_admin&&!ctx.committeeViewer){
 }
 const ownWork=document.querySelector('#zi-v79-my-work a[href="engineer-profiles.html"]');
 if(ownWork&&!ctx.profile.is_admin&&!ctx.committeeViewer){ownWork.href='my-professional-profile.html';ownWork.textContent='دەستکاریکرنا پروفایلێ پیشەیی ←';}
+if(!ctx.profile.is_admin&&!ctx.committeeViewer){
+ const system=document.querySelector('.zd-systems');
+ if(system&&!system.querySelector('a[href="smart-letter-notifications.html"]')){
+  const a=document.createElement('a');a.className='zd-tile';a.href='smart-letter-notifications.html';
+  a.innerHTML='<span class="ic">📨</span><span><strong>نڤیسارێن زیرەک</strong><small>نڤیسارێن پەسەندکری یێن من</small></span>';
+  system.appendChild(a);
+ }
+}
 const count=document.getElementById('zi-system-count');if(count)count.textContent=ctx.allowed.length+' سیستەم';
 const bar=node('div',{class:'zi-profile-menu'},'<button type="button" class="zi-profile-trigger" aria-expanded="false"><span class="zi-avatar-small" aria-hidden="true">👤</span><span class="zi-profile-label"><strong></strong><small>پروفایلێ من</small></span><span class="zi-chevron">⌄</span></button><div class="zi-profile-dropdown" hidden><a href="/ZIATA/profile.html">پروفایلێ من</a>'+(ctx.profile.is_admin?'<a href="/ZIATA/admin.html">برێڤەبرنا فەرمانبەران</a>':'')+'<button type="button" id="zi-logout">چوونا دەرڤە</button></div>');
 const trigger=bar.querySelector('.zi-profile-trigger'),dropdown=bar.querySelector('.zi-profile-dropdown');bar.querySelector('strong').textContent=ctx.profile.full_name||ctx.session.user.email?.split('@')[0]||'فەرمانبەر';trigger.onclick=()=>{dropdown.hidden=!dropdown.hidden;trigger.setAttribute('aria-expanded',String(!dropdown.hidden))};document.addEventListener('click',e=>{if(!bar.contains(e.target)){dropdown.hidden=true;trigger.setAttribute('aria-expanded','false')}});document.addEventListener('keydown',e=>{if(e.key==='Escape'){dropdown.hidden=true;trigger.setAttribute('aria-expanded','false')}});
