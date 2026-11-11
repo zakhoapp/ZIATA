@@ -1,4 +1,41 @@
-<!doctype html><html lang="ku" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ZIATA Smart Letters</title><link rel="stylesheet" href="ziata-v58.css"><style>body{font-family:Tahoma,Arial,sans-serif;background:#f4f7fb;color:#172b49;margin:0}.wrap{max-width:1050px;margin:auto;padding:30px 18px}header,.panel{background:white;border:1px solid #dce5ef;border-radius:18px;padding:24px;margin-bottom:16px}h1{margin:6px 0}.tag{color:#957125;font-weight:bold}.muted{color:#64748b}.row{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}a{color:#1555a1}.pill{background:#fff4d9;color:#805b10;padding:6px 12px;border-radius:20px}button{border:0;border-radius:10px;background:#163a65;color:white;padding:10px 18px;cursor:pointer}button:disabled{opacity:.5}table{width:100%;border-collapse:collapse}td,th{text-align:right;border-bottom:1px solid #e5eaf0;padding:12px}.empty{padding:22px;text-align:center}</style></head><body><main class="wrap"><header><div class="row"><div><div class="tag">ZIATA · SMART LETTERS</div><h1>سیستەمێ نڤیسارێن زیرەک</h1><p class="muted">پشکنینا نڤیساران و پەسەندکرنا وەرگران بەری ئاگەهداریێ</p></div><a href="admin.html">↩ داشبۆردا ئەدمینی</a></div></header><section class="panel"><div class="row"><h2>نڤیسارێن چاوەڕێی پەسەندکرنێ</h2><span class="pill">هیچ ئاگەهداریەک بێی پەسەندکرنێ ناچیت</span></div><p id="status" role="status">چاوەڕێ بکە...</p><div id="items"></div></section><section class="panel"><h2>رەوشا جێبەجێکرنێ</h2><p class="muted">ئەڤ پەیجە تەنێ تۆمارێن داتابەیسێ دخوینیت. OCR، چاڤدێرییا Drive، پەسەندکرنا سێرڤەری و فرێکرنا Push هێشتا پێدڤی ب ڕێکخستن و Deploy کرنێ هەنە.</p></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="ziata-supabase-config.js"></script><script src="ziata-auth.js"></script><script>
+<!doctype html><html lang="ku" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ZIATA Smart Letters</title><link rel="stylesheet" href="ziata-v58.css"><style>
+:root{--navy:#173451;--gold:#b58b43;--line:#e2e9f0;--muted:#63758a}
+*{box-sizing:border-box}
+body{font-family:Vazirmatn,Tahoma,Arial,sans-serif!important;background:linear-gradient(180deg,#edf3f9,#f8fafc 320px);color:#172b49;margin:0;min-height:100vh;line-height:1.8}
+.wrap{max-width:1160px;margin:0 auto;padding:32px 22px 80px}
+.wrap>header{position:relative;overflow:hidden;background:linear-gradient(115deg,#102b48,#244b6c);color:#fff;border:1px solid #315471;border-radius:22px;padding:34px 38px;margin-bottom:24px;box-shadow:0 14px 36px #142f4b20}
+.wrap>header:after{content:"";position:absolute;left:-70px;bottom:-130px;width:320px;height:320px;border-radius:50%;border:60px solid #ffffff0b;pointer-events:none}
+.wrap>header h1{font-size:clamp(24px,3vw,35px);line-height:1.4;margin:8px 0}
+.wrap>header .muted{color:#d5e0ed;margin:6px 0 0}
+.wrap>header .tag{color:#e7c68c;font-size:12px;font-weight:800;letter-spacing:1px}
+.wrap>header a{position:relative;z-index:1;display:inline-flex;align-items:center;text-decoration:none;color:#fff;border:1px solid #ffffff55;border-radius:12px;padding:8px 15px;background:#ffffff15;font-size:13px}
+.wrap .panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:25px;margin-bottom:18px;box-shadow:0 8px 30px #1c35510a}
+.wrap .panel h2{font-size:20px;margin:0 0 12px}
+.wrap .panel h3{font-size:18px;margin:0 0 7px;overflow-wrap:anywhere}
+.wrap .muted{color:var(--muted);font-size:13px}
+.wrap .row{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.wrap a{color:#175b9c}
+.wrap .pill{display:inline-block;background:#fff8e9;color:#8c6725;border:1px solid #f0dfb9;padding:5px 12px;border-radius:100px;font-size:12px;font-weight:700}
+.wrap button{border:0;border-radius:11px;background:#193e64;color:#fff;padding:10px 20px;min-height:43px;font:700 13px Vazirmatn,Tahoma,sans-serif;cursor:pointer;transition:background .2s,transform .2s}
+.wrap button:hover:not(:disabled){background:#245782;transform:translateY(-1px)}
+.wrap button:disabled{opacity:.45;cursor:not-allowed}
+.wrap select{font:500 14px Vazirmatn,Tahoma,sans-serif;color:#18354f}
+.wrap select:focus-visible,.wrap button:focus-visible,.wrap a:focus-visible{outline:3px solid #d2aa62;outline-offset:2px}
+.wrap .empty{padding:40px;text-align:center;color:var(--muted)}
+#status{display:inline-flex;background:#edf4fa;border-radius:10px;padding:7px 13px;color:#34516e;font-weight:600;font-size:13px}
+#items>.panel{border-right:4px solid var(--gold);background:#fff;margin-top:17px;box-shadow:0 5px 18px #1535540b}
+#items>.panel>div:not(.row){max-width:100%}
+body>.zi-profile-menu.zi-profile-standalone{position:relative!important;z-index:50!important;display:flex!important;justify-content:flex-end!important;align-items:center!important;width:min(1160px,calc(100% - 44px))!important;max-width:1160px!important;min-height:54px!important;margin:14px auto 0!important;padding:0!important;background:transparent!important;box-shadow:none!important;border:0!important}
+body>.zi-profile-menu .zi-profile-trigger{display:inline-flex!important;flex-direction:row!important;align-items:center!important;gap:9px!important;width:auto!important;max-width:270px!important;min-height:42px!important;padding:5px 10px!important;border:1px solid #dce5ed!important;border-radius:12px!important;background:#fff!important;font:600 12px Vazirmatn,Tahoma,sans-serif!important}
+body>.zi-profile-menu .zi-avatar-small{display:grid!important;place-items:center!important;flex:0 0 32px!important;width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;max-width:32px!important;max-height:32px!important;overflow:hidden!important;border-radius:50%!important;font-size:16px!important;line-height:1!important}
+body>.zi-profile-menu .zi-avatar-small img{display:block!important;width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;max-width:32px!important;max-height:32px!important;object-fit:cover!important;border-radius:50%!important}
+body>.zi-profile-menu .zi-profile-label{display:flex!important;flex-direction:column!important;min-width:0!important;text-align:right!important;line-height:1.4!important}
+body>.zi-profile-menu .zi-profile-label strong{display:block!important;max-width:170px!important;font-size:12px!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important}
+body>.zi-profile-menu .zi-profile-label small{font-size:10px!important}
+body>.zi-profile-menu .zi-profile-dropdown{position:absolute!important;top:calc(100% + 4px)!important;right:0!important;z-index:80!important}
+body>.zi-profile-menu .zi-profile-dropdown[hidden]{display:none!important}
+@media(max-width:650px){.wrap{padding:14px 12px 48px}.wrap>header{padding:23px 18px;border-radius:17px}.wrap .panel{padding:17px;border-radius:14px}.wrap .row{align-items:flex-start}.wrap .pill{font-size:11px}#items>.panel{padding:16px}body>.zi-profile-menu.zi-profile-standalone{width:calc(100% - 24px)!important;margin-top:8px!important}}
+</style></head><body><main class="wrap"><header><div class="row"><div><div class="tag">ZIATA · SMART LETTERS</div><h1>سیستەمێ نڤیسارێن زیرەک</h1><p class="muted">پشکنینا نڤیساران و پەسەندکرنا وەرگران بەری ئاگەهداریێ</p></div><a href="admin.html">↩ داشبۆردا ئەدمینی</a></div></header><section class="panel"><div class="row"><h2>نڤیسارێن چاوەڕێی پەسەندکرنێ</h2><span class="pill">هیچ ئاگەهداریەک بێی پەسەندکرنێ ناچیت</span></div><p id="status" role="status">چاوەڕێ بکە...</p><div id="items"></div></section><section class="panel"><h2>تێبینییا پاراستنێ</h2><p class="muted">پێشنیارێن AI پێدڤی ب پشتڕاستکرنا ئەدمینی هەنە. بەری پەسەندکرنێ نڤیسارا ئەسلی پشکنە. فرێکرنا ئاگەهداریێ ژ ڤێ پەیجێ چالاک نینە.</p></section></main><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="ziata-supabase-config.js"></script><script src="ziata-auth.js"></script><script>
 (async()=>{
 const status=document.getElementById('status'),items=document.getElementById('items');
 try{
