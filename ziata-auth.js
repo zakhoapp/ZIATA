@@ -78,6 +78,11 @@ if(committeeTile&&!ctx.profile.is_admin){
  const sub=committeeTile.querySelector('small');if(sub)sub.textContent='دەستکاریکرنا پرۆژە و لێژنەیێن خۆ';
  committeeTile.hidden=false;committeeTile.style.removeProperty('display');committeeTile.removeAttribute('aria-hidden');
 }
+if(!ctx.profile.is_admin){
+ for(const link of document.querySelectorAll('.zi-desktop-sidebar a[href="my-professional-profile.html"],.zi-mobile-nav a[href="my-professional-profile.html"]')){
+  link.hidden=false;link.style.removeProperty('display');link.removeAttribute('aria-hidden');
+ }
+}
 const ownWork=document.querySelector('#zi-v79-my-work a[href="engineer-profiles.html"]');
 if(ownWork&&!ctx.profile.is_admin){ownWork.href='my-professional-profile.html';ownWork.textContent='دەستکاریکرنا پروفایلێ پیشەیی ←';}
 const count=document.getElementById('zi-system-count');if(count)count.textContent=ctx.allowed.length+' سیستەم';
