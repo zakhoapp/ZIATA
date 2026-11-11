@@ -71,6 +71,15 @@ if(!ctx.profile||ctx.profile.status!=='approved'){if(page!=='pending.html')locat
 if(page==='pending.html'){location.replace('/ZIATA/index.html');return}
 const module=page.replace(/\.html$/,'');if(keys.includes(module)&&!ctx.allowed.includes(module)){location.replace('/ZIATA/index.html');return}
 document.documentElement.dataset.ziRole=ctx.profile.is_admin?'admin':'employee';secureLinks(ctx.allowed);
+const committeeTile=document.querySelector('.zd-systems a[href="committees.html"]');
+if(committeeTile&&!ctx.profile.is_admin){
+ committeeTile.href='my-professional-profile.html';
+ const heading=committeeTile.querySelector('strong');if(heading)heading.textContent='لێژنە و پرۆژەیێن من';
+ const sub=committeeTile.querySelector('small');if(sub)sub.textContent='دەستکاریکرنا پرۆژە و لێژنەیێن خۆ';
+ committeeTile.hidden=false;committeeTile.style.removeProperty('display');committeeTile.removeAttribute('aria-hidden');
+}
+const ownWork=document.querySelector('#zi-v79-my-work a[href="engineer-profiles.html"]');
+if(ownWork&&!ctx.profile.is_admin){ownWork.href='my-professional-profile.html';ownWork.textContent='دەستکاریکرنا پروفایلێ پیشەیی ←';}
 const count=document.getElementById('zi-system-count');if(count)count.textContent=ctx.allowed.length+' سیستەم';
 const bar=node('div',{class:'zi-profile-menu'},'<button type="button" class="zi-profile-trigger" aria-expanded="false"><span class="zi-avatar-small" aria-hidden="true">👤</span><span class="zi-profile-label"><strong></strong><small>پروفایلێ من</small></span><span class="zi-chevron">⌄</span></button><div class="zi-profile-dropdown" hidden><a href="/ZIATA/profile.html">پروفایلێ من</a>'+(ctx.profile.is_admin?'<a href="/ZIATA/admin.html">برێڤەبرنا فەرمانبەران</a>':'')+'<button type="button" id="zi-logout">چوونا دەرڤە</button></div>');
 const trigger=bar.querySelector('.zi-profile-trigger'),dropdown=bar.querySelector('.zi-profile-dropdown');bar.querySelector('strong').textContent=ctx.profile.full_name||ctx.session.user.email?.split('@')[0]||'فەرمانبەر';trigger.onclick=()=>{dropdown.hidden=!dropdown.hidden;trigger.setAttribute('aria-expanded',String(!dropdown.hidden))};document.addEventListener('click',e=>{if(!bar.contains(e.target)){dropdown.hidden=true;trigger.setAttribute('aria-expanded','false')}});document.addEventListener('keydown',e=>{if(e.key==='Escape'){dropdown.hidden=true;trigger.setAttribute('aria-expanded','false')}});
