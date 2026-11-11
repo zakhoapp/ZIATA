@@ -36,8 +36,8 @@ window.ziataProxy = async (module, payload) => {
   });
 };
 
-const keys=['transactions','permits','engineers','projects','committees','letters','advances'];
-const names=['برێڤەبرنا مامەلەیان','وەرگرتنا مۆڵەتێ','دەرکەفتنا ئەندازیاران','پولینکرنا پرۆژان','لێژنە و پرۆژە','ئەرشیفا نڤیساران','پێشینەیان'];
+const keys=['transactions','permits','engineers','projects','committees','letters','advances','smart-letter-notifications'];
+const names=['برێڤەبرنا مامەلەیان','وەرگرتنا مۆڵەتێ','دەرکەفتنا ئەندازیاران','پولینکرنا پرۆژان','لێژنە و پرۆژە','ئەرشیفا نڤیساران','پێشینەیان','نڤیسارێن زیرەک'];
 const page=location.pathname.split('/').pop()||'index.html';
 const cookie=(token)=>{document.cookie='ziata_token='+(token?encodeURIComponent(token):'')+'; Path=/; SameSite=Lax; Secure; Max-Age='+(token?'3600':'0')};
 async function session(){const {data}=await sb.auth.getSession();cookie(data.session?.access_token||'');return data.session;}
@@ -101,7 +101,7 @@ if(!ctx.profile.is_admin&&!ctx.committeeViewer){
 }
 const ownWork=document.querySelector('#zi-v79-my-work a[href="engineer-profiles.html"]');
 if(ownWork&&!ctx.profile.is_admin&&!ctx.committeeViewer){ownWork.href='my-professional-profile.html';ownWork.textContent='دەستکاریکرنا پروفایلێ پیشەیی ←';}
-if(!ctx.profile.is_admin){
+if(ctx.allowed.includes('smart-letter-notifications')){
  const system=document.querySelector('.zd-systems');
  if(system&&!system.querySelector('a[href="smart-letter-notifications.html"]')){
   const a=document.createElement('a');a.className='zd-tile';a.href='smart-letter-notifications.html';
