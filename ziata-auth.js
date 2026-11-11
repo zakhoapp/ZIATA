@@ -76,8 +76,6 @@ document.documentElement.dataset.ziRole=ctx.profile.is_admin?'admin':'employee';
 if(ctx.committeeViewer&&!ctx.profile.is_admin){
  const system=document.querySelector('.zd-systems');
  if(system){const a=document.createElement('a');a.className='zd-tile';a.href='committees.html';a.innerHTML='<span class="ic">📋</span><span><strong>دیتنا خشتەیا لێژنە و پرۆژە</strong><small>بتنێ دیتن · بێ دەستکاری</small></span>';system.appendChild(a);}
- const sidebar=document.querySelector('.zi-desktop-sidebar');
- if(sidebar){const a=document.createElement('a');a.className='zi-side-link';a.href='committees.html';a.innerHTML='<span>📋</span><span>خشتەیا لێژنان · دیتن</span>';sidebar.insertBefore(a,sidebar.querySelector('.zi-side-footer'));}
 }
 if(ctx.committeeViewer&&!ctx.profile.is_admin){
  const ownTile=document.querySelector('.zd-systems a[href="committees.html"]');
