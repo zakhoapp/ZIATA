@@ -78,6 +78,9 @@ if(ctx.committeeViewer&&!ctx.profile.is_admin){
  if(system){const a=document.createElement('a');a.className='zd-tile';a.href='committees.html';a.innerHTML='<span class="ic">📋</span><span><strong>دیتنا خشتەیا لێژنە و پرۆژە</strong><small>بتنێ دیتن · بێ دەستکاری</small></span>';system.appendChild(a);}
 }
 if(ctx.committeeViewer&&!ctx.profile.is_admin){
+ for(const a of document.querySelectorAll('.zi-desktop-sidebar a[href="committees.html"]')){
+  a.hidden=false;a.style.removeProperty('display');a.removeAttribute('aria-hidden');
+ }
  const ownTile=document.querySelector('.zd-systems a[href="committees.html"]');
  if(ownTile){ownTile.hidden=true;ownTile.style.setProperty('display','none','important');}
  for(const a of document.querySelectorAll('.zi-desktop-sidebar a[href="my-professional-profile.html"]')){
