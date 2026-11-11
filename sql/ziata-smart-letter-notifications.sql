@@ -57,3 +57,22 @@ join public.ziata_smart_letters l on l.id=r.letter_id
 where r.approved is true and l.approval_status='approved'
 on conflict(letter_id,user_id) do nothing;
 select count(*) as notifications_total from public.ziata_smart_letter_notifications;
+
+-- Expose only the approved letters assigned to the signed-in employee.
+create or replace function public.ziata_my_smart_letter_notifications()
+returns table (
+ id bigint, letter_id uuid, is_read boolean, created_at timestamptz,
+ drive_name text, drive_url text, subject text, letter_number text, letter_date text
+)
+language sql stable security definer set search_path = ''
+as $$
+ select n.id,n.letter_id,n.is_read,n.created_at,
+ l.drive_name::text,l.drive_url::text,l.subject::text,
+ l.letter_number::text,l.letter_date::text
+ from public.ziata_smart_letter_notifications n
+ join public.ziata_smart_letters l on l.id=n.letter_id
+ where n.user_id=(select auth.uid()) and l.approval_status='approved'
+ order by n.created_at desc limit 100
+$$;
+revoke all on function public.ziata_my_smart_letter_notifications() from public,anon;
+grant execute on function public.ziata_my_smart_letter_notifications() to authenticated;
