@@ -5,13 +5,11 @@ const ctx=await window.ziataContext(),uid=ctx.session?.user?.id;
 if(!uid){$('status').textContent='پێدڤیە داخڵی حسابێ خۆ ببی';return}
 const sb=window.ziataSB;
 async function refresh(){
-const {data:notes,error}=await sb.from('ziata_smart_letter_notifications').select('id,letter_id,is_read,created_at').eq('user_id',uid).order('created_at',{ascending:false}).limit(100);
+const {data:notes,error}=await sb.rpc('ziata_my_smart_letter_notifications');
 if(error)throw error;
 const list=$('letters');list.replaceChildren();
-const ids=[...new Set((notes||[]).map(n=>n.letter_id))];
-let letters=[];
-if(ids.length){const r=await sb.from('ziata_smart_letters').select('id,drive_name,drive_url,subject,letter_number,letter_date').in('id',ids);if(r.error)throw r.error;letters=r.data||[]}
-const lookup=new Map(letters.map(l=>[l.id,l]));
+const lookup=new Map((notes||[]).map(n=>[n.letter_id,n]));
+
 $('status').textContent=(notes||[]).filter(n=>!n.is_read).length+' ئاگەهداریێن نەخوێندی';
 if(!notes?.length){list.append(node('p','هێشتا هیچ نڤیسارەک بۆ تە نەهاتیە پەسەندکرن.','status'));return}
 for(const n of notes){
