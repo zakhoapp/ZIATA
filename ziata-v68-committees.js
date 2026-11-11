@@ -176,7 +176,7 @@ async function loadEmployeeProfiles(){
 async function init(){
  if(initStarted||!window.ziataContext||!window.ziataSB)return;initStarted=true;
  let ctx;try{ctx=await window.ziataContext()}catch(e){message(e.message,true);return}
- if(!ctx.session?.user||!ctx.allowed?.includes('committees')){message('دەستهەلاتا دیتنا لێژنان نینە.',true);return}
+ if(!ctx.session?.user||(!ctx.allowed?.includes('committees')&&!ctx.committeeViewer)){message('دەستهەلاتا دیتنا لێژنان نینە.',true);return}
  admin=!!ctx.profile?.is_admin;sb=window.ziataSB;
  if(admin){$('zi-v68-admin').hidden=false;$('zi-v68-action-title').hidden=false;try{await loadEmployeeProfiles()}catch(e){message('نەشیا حسابێن فەرمانبەران بار بکەت: '+e.message,true);$('zi-v80-employee').disabled=true}}
  $('zi-v68-search').addEventListener('input',()=>{page=0;view()});
