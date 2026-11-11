@@ -56,7 +56,9 @@ async function context(){
   const p=profileResult.data;
   if(!p||p.status!=='approved')return {session:s,profile:p,allowed:[]};
   if(permissionsResult.error && !p.is_admin)throw permissionsResult.error;
-  return {session:s,profile:p,allowed:p.is_admin?keys:((permissionsResult.data||[]).filter(x=>x.can_access).map(x=>x.system_key))};
+  const viewerResult=await sb.rpc('ziata_is_committee_viewer');
+  const committeeViewer=!viewerResult.error&&viewerResult.data===true;
+  return {session:s,profile:p,committeeViewer,allowed:p.is_admin?keys:((permissionsResult.data||[]).filter(x=>x.can_access).map(x=>x.system_key))};
  })();
  try{return await contextPromise}catch(e){contextPromise=null;throw e}
 }
@@ -69,8 +71,14 @@ async function init(){if(page==='login.html'||page==='register.html'||page==='re
 if(!ctx.session){location.replace('/ZIATA/login.html?next='+encodeURIComponent(page));return}
 if(!ctx.profile||ctx.profile.status!=='approved'){if(page!=='pending.html')location.replace('/ZIATA/pending.html');return}
 if(page==='pending.html'){location.replace('/ZIATA/index.html');return}
-const module=page.replace(/\.html$/,'');if(module==='committees'&&!ctx.profile.is_admin){location.replace('/ZIATA/my-professional-profile.html');return}if(keys.includes(module)&&!ctx.allowed.includes(module)){location.replace('/ZIATA/index.html');return}
+const module=page.replace(/\.html$/,'');if(module==='committees'&&!ctx.profile.is_admin&&!ctx.committeeViewer){location.replace('/ZIATA/my-professional-profile.html');return}if(keys.includes(module)&&!ctx.allowed.includes(module)&&!(module==='committees'&&ctx.committeeViewer)){location.replace('/ZIATA/index.html');return}
 document.documentElement.dataset.ziRole=ctx.profile.is_admin?'admin':'employee';secureLinks(ctx.allowed);
+if(ctx.committeeViewer&&!ctx.profile.is_admin){
+ const system=document.querySelector('.zd-systems');
+ if(system){const a=document.createElement('a');a.className='zd-tile';a.href='committees.html';a.innerHTML='<span class="ic">📋</span><span><strong>دیتنا خشتەیا لێژنە و پرۆژە</strong><small>بتنێ دیتن · بێ دەستکاری</small></span>';system.appendChild(a);}
+ const sidebar=document.querySelector('.zi-desktop-sidebar');
+ if(sidebar){const a=document.createElement('a');a.className='zi-side-link';a.href='committees.html';a.innerHTML='<span>📋</span><span>خشتەیا لێژنان · دیتن</span>';sidebar.insertBefore(a,sidebar.querySelector('.zi-side-footer'));}
+}
 const committeeTile=document.querySelector('.zd-systems a[href="committees.html"]');
 if(committeeTile&&!ctx.profile.is_admin){
  committeeTile.href='my-professional-profile.html';
