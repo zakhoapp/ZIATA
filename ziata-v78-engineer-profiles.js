@@ -76,7 +76,7 @@ function renderDetail(profile){
   const block=el('section','zi-v78-list');block.append(el('h3','','زانیاریێن من یێن خۆ-تۆمارکری'));
   block.append(el('p','','ئەڤ زانیارییە ژ لایێ فەرمانبەری هاتینە زێدەکرن و جودانە ژ تۆمارێن فەرمی.'));
   const ul=el('ul');
-  for(const r of profile.selfEntries)ul.append(el('li','',(r.entry_type==='project'?'پرۆژە: ':'لێژنە: ')+r.title+(r.role_name?' — '+r.role_name:'')));
+  for(const r of profile.selfEntries)ul.append(el('li','',(r.entry_type==='project'?'پرۆژە: ':'لێژنە: ')+r.title+(r.role_name?' — '+r.role_name:'')+(r.work_status==='completed'?' (تەمام بوویە)':r.work_status==='paused'?' (راوەستیایە)':' (بەردەوامە)')));
   block.append(ul);container.append(block);
  }
  for(const [heading,values,empty] of [['لێژنەیێن ئەندازیاری',[...profile.committees],'هیچ لێژنەیەک نەهاتیە تۆمارکرن'],['پرۆژەیێن گرێدای',[...profile.projects],'هیچ پرۆژەیەک نەهاتیە تۆمارکرن']]){
@@ -111,7 +111,7 @@ async function init(){
   const me=ctx.profile?.full_name||'';
   ownName=clean(me);
   if(ctx.session?.user?.id){
-   const own=await window.ziataSB.from('ziata_professional_entries').select('entry_type,title,role_name').eq('user_id',ctx.session.user.id);
+   const own=await window.ziataSB.from('ziata_professional_entries').select('entry_type,title,role_name,work_status').eq('user_id',ctx.session.user.id);
    if(!own.error)selfEntries=own.data||[];
    else console.warn('Self-managed entries unavailable until SQL is installed:',own.error.message);
   }
