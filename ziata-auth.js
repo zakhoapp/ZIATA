@@ -101,7 +101,7 @@ if(!ctx.profile.is_admin&&!ctx.committeeViewer){
 }
 const ownWork=document.querySelector('#zi-v79-my-work a[href="engineer-profiles.html"]');
 if(ownWork&&!ctx.profile.is_admin&&!ctx.committeeViewer){ownWork.href='my-professional-profile.html';ownWork.textContent='دەستکاریکرنا پروفایلێ پیشەیی ←';}
-if(!ctx.profile.is_admin&&!ctx.committeeViewer){
+if(!ctx.profile.is_admin){
  const system=document.querySelector('.zd-systems');
  if(system&&!system.querySelector('a[href="smart-letter-notifications.html"]')){
   const a=document.createElement('a');a.className='zd-tile';a.href='smart-letter-notifications.html';
