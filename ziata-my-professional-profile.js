@@ -1,6 +1,6 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id),table='ziata_professional_entries',source='ziata_committee_records';
-let uid='',editId=null,records=[],started=false,projects=[],committees=[];
+let uid='',editId=null,records=[],started=false,projects=[],committees=[],official=[];
 const clean=v=>String(v??'').replace(/\s+/g,' ').trim();
 const unique=arr=>[...new Map(arr.map(x=>[clean(x).toLocaleLowerCase(),clean(x)]).filter(x=>x[0])).values()].sort((a,b)=>a.localeCompare(b));
 const msg=(s,bad=false)=>{$('message').textContent=s;$('message').classList.toggle('error',bad)};
@@ -20,7 +20,22 @@ function updateChoices(value=''){
 }
 function toggleCustom(){const custom=$('entry-choice').value==='__custom__'&&$('entry-type').value==='project';$('custom-wrap').classList.toggle('hidden',!custom);$('entry-title').required=custom;if(!custom)$('entry-title').value=''}
 function clear(){editId=null;$('profile-form').reset();$('form-title').textContent='زێدەکرنا تۆمارەکا نوی';updateChoices()}
-function render(){
+function editOfficial(item){
+ const existing=records.find(r=>r.entry_type===item.entry_type&&clean(r.title).toLocaleLowerCase()===clean(item.title).toLocaleLowerCase());
+ editId=existing?.id||null;$('entry-type').value=item.entry_type;updateChoices(item.title);
+ $('entry-role').value=existing?.role_name||'';$('entry-status').value=existing?.work_status||'active';$('entry-notes').value=existing?.notes||'';
+ $('form-title').textContent='رەوشا '+item.title+' دەستکاری بکە';window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderOfficial(){
+ const box=$('official-entries');box.replaceChildren();
+ if(!official.length){box.append(text('p','هیچ تۆمارەکا فەرمی ب حسابێ تە نەهاتیە گرێدان. ئەگەر تۆمار ب ناڤێ تە هەیە، ئەدمین پێدڤیە حسابێ تە ب وێ تۆمارێ گرێبدەت.'));return}
+ for(const item of official){const card=document.createElement('article');card.className='entry';card.append(text('h3',(item.entry_type==='project'?'پرۆژە: ':'لێژنە: ')+item.title));
+ const match=records.find(r=>r.entry_type===item.entry_type&&clean(r.title).toLocaleLowerCase()===clean(item.title).toLocaleLowerCase());
+ const badge=text('span',match?statusText(match.work_status):'فەرمی · رەوش نەهاتیە دیارکرن');badge.className='entry-status'+(match?.work_status==='completed'?' done':'');card.append(badge);
+ const btn=text('button','دیارکرنا رۆل و رەوشێ');btn.type='button';btn.className='secondary';btn.onclick=()=>editOfficial(item);
+ const actions=document.createElement('div');actions.className='actions';actions.append(btn);card.append(actions);box.append(card)}
+}
+function render(){renderOfficial();
  const box=$('entries');box.replaceChildren();
  if(!records.length){box.append(text('p','هێشتا تۆمارەک نەهاتیە زێدەکرن.'));return}
  for(const r of records){
@@ -46,10 +61,15 @@ function render(){
 async function fetchCatalog(){
  const rows=[];
  for(let offset=0;offset<20000;offset+=500){
-  const {data,error}=await window.ziataSB.from(source).select('committee_type,projects_text').order('id').range(offset,offset+499);
+  const {data,error}=await window.ziataSB.from(source).select('employee_id,committee_type,projects_text').order('id').range(offset,offset+499);
   if(error)throw error;rows.push(...(data||[]));if(!data||data.length<500)break;
  }
  committees=unique(rows.flatMap(r=>String(r.committee_type||'').split(/\r?\n|؛|;/)));
+ const mine=rows.filter(r=>r.employee_id===uid);
+ official=[...new Map(mine.flatMap(r=>[
+ ...String(r.committee_type||'').split(/\r?\n|؛|;/).map(title=>({entry_type:'committee',title:clean(title)})),
+ ...String(r.projects_text||'').split(/\r?\n|؛|;/).map(title=>({entry_type:'project',title:clean(title)}))
+ ]).filter(x=>x.title).map(x=>[x.entry_type+':'+x.title.toLocaleLowerCase(),x])).values()];
  projects=unique(rows.flatMap(r=>String(r.projects_text||'').split(/\r?\n|؛|;/)));
 }
 async function load(){
