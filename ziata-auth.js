@@ -69,7 +69,7 @@ async function init(){if(page==='login.html'||page==='register.html'||page==='re
 if(!ctx.session){location.replace('/ZIATA/login.html?next='+encodeURIComponent(page));return}
 if(!ctx.profile||ctx.profile.status!=='approved'){if(page!=='pending.html')location.replace('/ZIATA/pending.html');return}
 if(page==='pending.html'){location.replace('/ZIATA/index.html');return}
-const module=page.replace(/\.html$/,'');if(keys.includes(module)&&!ctx.allowed.includes(module)){location.replace('/ZIATA/index.html');return}
+const module=page.replace(/\.html$/,'');if(module==='committees'&&!ctx.profile.is_admin){location.replace('/ZIATA/my-professional-profile.html');return}if(keys.includes(module)&&!ctx.allowed.includes(module)){location.replace('/ZIATA/index.html');return}
 document.documentElement.dataset.ziRole=ctx.profile.is_admin?'admin':'employee';secureLinks(ctx.allowed);
 const committeeTile=document.querySelector('.zd-systems a[href="committees.html"]');
 if(committeeTile&&!ctx.profile.is_admin){
