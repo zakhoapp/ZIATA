@@ -1,6 +1,6 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id),table='ziata_professional_entries',source='ziata_committee_records';
-let uid='',editId=null,records=[],started=false,projects=[],committees=[],official=[];
+let uid='',editId=null,officialEditId=null,records=[],started=false,projects=[],committees=[],official=[];
 const clean=v=>String(v??'').replace(/\s+/g,' ').trim();
 const unique=arr=>[...new Map(arr.map(x=>[clean(x).toLocaleLowerCase(),clean(x)]).filter(x=>x[0])).values()].sort((a,b)=>a.localeCompare(b));
 const msg=(s,bad=false)=>{$('message').textContent=s;$('message').classList.toggle('error',bad)};
@@ -19,10 +19,10 @@ function updateChoices(value=''){
  toggleCustom();
 }
 function toggleCustom(){const custom=$('entry-choice').value==='__custom__'&&$('entry-type').value==='project';$('custom-wrap').classList.toggle('hidden',!custom);$('entry-title').required=custom;if(!custom)$('entry-title').value=''}
-function clear(){editId=null;$('profile-form').reset();$('form-title').textContent='زێدەکرنا تۆمارەکا نوی';updateChoices()}
+function clear(){editId=null;officialEditId=null;$('profile-form').reset();$('form-title').textContent='زێدەکرنا تۆمارەکا نوی';updateChoices()}
 function editOfficial(item){
  const existing=records.find(r=>r.entry_type===item.entry_type&&clean(r.title).toLocaleLowerCase()===clean(item.title).toLocaleLowerCase());
- editId=existing?.id||null;$('entry-type').value=item.entry_type;updateChoices(item.title);
+ editId=existing?.id||null;officialEditId=item.record_id||null;$('entry-type').value=item.entry_type;updateChoices(item.title);
  $('entry-role').value=existing?.role_name||'';$('entry-status').value=existing?.work_status||'active';$('entry-notes').value=existing?.notes||'';
  $('form-title').textContent='رەوشا '+item.title+' دەستکاری بکە';window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -61,14 +61,14 @@ function render(){renderOfficial();
 async function fetchCatalog(){
  const rows=[];
  for(let offset=0;offset<20000;offset+=500){
-  const {data,error}=await window.ziataSB.from(source).select('employee_id,committee_type,projects_text').order('id').range(offset,offset+499);
+  const {data,error}=await window.ziataSB.from(source).select('id,employee_id,committee_type,projects_text').order('id').range(offset,offset+499);
   if(error)throw error;rows.push(...(data||[]));if(!data||data.length<500)break;
  }
  committees=unique(rows.flatMap(r=>String(r.committee_type||'').split(/\r?\n|؛|;/)));
  const mine=rows.filter(r=>r.employee_id===uid);
  official=[...new Map(mine.flatMap(r=>[
- ...String(r.committee_type||'').split(/\r?\n|؛|;/).map(title=>({entry_type:'committee',title:clean(title)})),
- ...String(r.projects_text||'').split(/\r?\n|؛|;/).map(title=>({entry_type:'project',title:clean(title)}))
+ ...String(r.committee_type||'').split(/\r?\n|؛|;/).map(title=>({entry_type:'committee',title:clean(title),record_id:r.id})),
+ ...String(r.projects_text||'').split(/\r?\n|؛|;/).map(title=>({entry_type:'project',title:clean(title),record_id:r.id}))
  ]).filter(x=>x.title).map(x=>[x.entry_type+':'+x.title.toLocaleLowerCase(),x])).values()];
  projects=unique(rows.flatMap(r=>String(r.projects_text||'').split(/\r?\n|؛|;/)));
 }
@@ -95,10 +95,21 @@ async function init(){
    const payload={entry_type:$('entry-type').value,title,role_name:clean($('entry-role').value),work_status:$('entry-status').value,notes:clean($('entry-notes').value)};
    $('save').disabled=true;
    try{
-    const q=editId?window.ziataSB.from(table).update(payload).eq('id',editId).eq('user_id',uid):window.ziataSB.from(table).insert({...payload,user_id:uid});
+    // Write the membership to the official committee table through a guarded RPC.
+    // If this is an existing official record, preserve the other membership field.
+    const existing=official.find(x=>x.record_id===officialEditId&&x.entry_type!==payload.entry_type);
+    const peerTitles=official.filter(x=>x.record_id===officialEditId&&x.entry_type!==payload.entry_type).map(x=>x.title);
+    const rpcPayload={p_action:officialEditId?'update':'create',p_record_id:officialEditId||null,
+      p_committee:payload.entry_type==='committee'?title:peerTitles.filter(x=>existing?.entry_type==='committee').join('\\n'),
+      p_projects:payload.entry_type==='project'?title:peerTitles.filter(x=>existing?.entry_type==='project').join('\\n'),
+      p_notes:''};
+    const officialWrite=await window.ziataSB.rpc('ziata_my_official_membership',rpcPayload);
+    if(officialWrite.error)throw officialWrite.error;
+    const existingPersonal=records.find(x=>x.entry_type===payload.entry_type&&clean(x.title).toLocaleLowerCase()===title.toLocaleLowerCase());
+    const q=existingPersonal?window.ziataSB.from(table).update(payload).eq('id',existingPersonal.id).eq('user_id',uid):window.ziataSB.from(table).insert({...payload,user_id:uid});
     const {error}=await q;if(error)throw error;
     if(payload.entry_type==='project')projects=unique([...projects,title]);
-    clear();await load();msg('زانیاری ب سەرکەفتی هاتنە خەزنکرن.')
+    clear();await fetchCatalog();await load();msg('تۆمارا فەرمی و رەوشا تە هاتنە خەزنکرن.')
    }catch(err){msg(err.message,true)}finally{$('save').disabled=false}
   };
   await load()
