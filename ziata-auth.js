@@ -27,13 +27,21 @@ window.ziataSB=sb;
 
 window.ziataProxy = async (module, payload) => {
   if (!['transactions','engineers'].includes(module)) throw Error('Unsupported module');
-  const { data: { session } } = await sb.auth.getSession();
-  if (!session?.access_token) throw Error('Login required');
-  return fetch(cfg.url + '/functions/v1/ziata-gas-proxy', {
+  const endpoint=cfg.url+'/functions/v1/ziata-gas-proxy';
+  const send=async(token)=>fetch(endpoint,{
     method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':cfg.key},
-    body:JSON.stringify({module, ...payload})
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token,'apikey':cfg.key},
+    body:JSON.stringify({module,...payload})
   });
+  let {data:{session},error:sessionError}=await sb.auth.getSession();
+  if(sessionError||!session?.access_token)throw Error('Login required');
+  let response=await send(session.access_token);
+  if(response.status===401){
+    const {data,error}=await sb.auth.refreshSession();
+    if(error||!data.session?.access_token)throw Error('Session expired — Sign out and sign in again');
+    response=await send(data.session.access_token);
+  }
+  return response;
 };
 
 const keys=['transactions','permits','engineers','projects','committees','letters','advances','smart-letter-notifications'];
