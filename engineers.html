@@ -17,14 +17,19 @@ async function loadApprovals(){
  $('approvalMsg').textContent='چاڤەرێ بە...';
  try{
   const result=await api({action:'approval-list'});
+  const monthly=await api({action:'monthly-stats'});
+  const monthlyCounts=monthly.counts||{};
   let records=result.data||[];
   if(selectedRequestId){const detail=await api({action:'request-detail',id:selectedRequestId});if(detail.data&&!records.some(x=>x.id===selectedRequestId))records=[detail.data,...records];}
   const table=document.createElement('table'),head=document.createElement('tr');
-  for(const name of ['بەروار','ئەندازیار','شوڤێر','جهـ / پرۆژە','تێبینی','بڕیار']){const th=document.createElement('th');th.textContent=name;head.appendChild(th)}
+  for(const name of ['بەروار','ئەندازیار','داخوازێن ڤێ هەیڤێ','شوڤێر','جهـ / پرۆژە','تێبینی','بڕیار']){const th=document.createElement('th');th.textContent=name;head.appendChild(th)}
   table.appendChild(head);
   for(const record of records){
    const tr=document.createElement('tr');
-   for(const v of [dateTime(record.created_at),record.engineer,record.driver,record.project,record.note])makeCell(tr,v);
+   const count=monthlyCounts[record.requester_id]||{total:0,approved:0,rejected:0,pending:0,processing:0,other:0};
+   makeCell(tr,dateTime(record.created_at));makeCell(tr,record.engineer);
+   makeCell(tr,'هەمی: '+count.total+' | پەسەندکری: '+count.approved+' | رەتکری: '+count.rejected+' | چاڤەڕێ: '+count.pending+(count.processing?' | ل ژێر کاردایە: '+count.processing:'')+(count.other?' | یێن دی: '+count.other:''));
+   for(const v of [record.driver,record.project,record.note])makeCell(tr,v);
    if(record.id===selectedRequestId){tr.style.background='#fff3cc';tr.scrollIntoView({block:'center',behavior:'smooth'});}
    const td=document.createElement('td');
    if(record.status!=='pending'){td.textContent=record.status==='approved'?'پەسەند بوو':record.status==='rejected'?'هاتە رەتکرن':'ل ژێر کاردایە';tr.appendChild(td);table.appendChild(tr);continue;}
@@ -40,7 +45,7 @@ async function loadApprovals(){
    tr.appendChild(td);table.appendChild(tr);
   }
   $('approvalList').replaceChildren(table);
-  $('approvalMsg').textContent=records.length?'داخوازیێن چاڤەرێ: '+records.length:'هیچ داخوازیەکا چاڤەرێ نینە.';
+  $('approvalMsg').textContent=records.length?'داخوازیێن چاڤەرێ: '+records.length+' | هژمارا هەیڤێ: '+monthly.month:'هیچ داخوازیەکا چاڤەرێ نینە.';
  }catch(e){$('approvalMsg').textContent=e.message}
 }
 const dateTime=value=>value?new Date(value).toLocaleString('en-GB',{timeZone:'Asia/Baghdad',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}):'—';
