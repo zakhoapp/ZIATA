@@ -4,7 +4,7 @@
 <button type="button" id="zi-notice-toggle" class="zi-notice-toggle" aria-label="ئاگەهداریێن من" aria-expanded="false" aria-controls="zi-notice-popover">
 <span aria-hidden="true" class="zi-notice-icon">🔔</span><span class="zi-notice-button-label">ئاگەهداریان</span><span class="zi-notice-badge" id="zi-notice-badge" hidden>0</span></button>
 <div id="zi-notice-popover" class="zi-notice-popover" hidden><section class="zi-smart-notice-link" style="padding:12px;border-bottom:1px solid #dce5ef"><a href="smart-letter-notifications.html" style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 13px;border-radius:11px;background:#eef4fa;color:#173e61;text-decoration:none;font-weight:700">📨 نڤیسارێن پەسەندکری یێن من <span id="zi-smart-letter-unread" style="border-radius:20px;background:#d6a756;color:#142d44;padding:2px 9px;font-size:12px">…</span></a></section>
-<div class="zi-notice-popover-title"><strong>ئاگەهداریێن من</strong><button type="button" id="zi-notice-close" aria-label="گرتن">✕</button></div><div id="zi-v55-list"><h3>ئاگەهداریێن مولەتان</h3><div id="zi-v55-notices"></div></div>
+<div class="zi-notice-popover-title"><strong>ئاگەهداریێن من</strong><button type="button" id="zi-notice-close" aria-label="گرتن">✕</button></div><section id="zi-engineer-notices" style="padding:12px;border-bottom:1px solid #dce5ef"><strong>🚗 ئاگەهداریێن دەرکەفتنا ئەندازیاران <span id="zi-engineer-unread">0</span></strong><div id="zi-engineer-notice-list" style="margin-top:8px"></div></section><div id="zi-v55-list"><h3>ئاگەهداریێن مولەتان</h3><div id="zi-v55-notices"></div></div>
 <section class="zi-v58-panel" id="zi-v58-dashboard"><div class="zi-v58-head"><h2>📨 ئاگەهداریێن ئەدمین</h2><span class="zi-v58-count" id="zi-v58-unread">0 نەخوینـدی</span></div><div id="zi-v58-list">چاوەڕێ بکە...</div></section>
 </div></div>
 <section class="zi-welcome"><div><p class="zd-org">ئیدارا سەربەخۆ یا زاخۆ · پشکا کاروبارێن تەکنیکی</p><h1>بخێرهاتی بۆ ناڤەندا دیجیتاڵی یا کاروبارێن تەکنیکی</h1><div class="zi-install-area"><button class="zi-install-btn" id="zi-install-btn" type="button"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 17v3h16v-3"></path></svg>داگرتن و دامەزراندنا ئەپلیکەیشنێ</button><button class="zi-install-btn zi-push-hero-btn" id="zi-push-enable" type="button"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>چالاککرنا ئاگەهداریان</button><span class="zi-install-help" id="zi-install-status">بۆ مۆبایل و کۆمپیوتەر</span><span aria-live="polite" class="zi-push-hero-status" id="zi-push-status" role="status"></span></div></div><img alt="لوگۆی ئیدارێ" class="seal" src="logo.webp"/></section>
@@ -47,4 +47,28 @@ if(/(?:^|\s)(?:eng\.?\s*)?heja(?:\s|$)/i.test(normalized)||/هێژا|هەژا|ه
 if(greeting){document.querySelector('.zi-welcome p').textContent=greeting+' · هەمی سیستەمێن تە ژ مینیویا لایێ راستێ بەردەستن.'}}catch(e){console.warn('Dashboard context unavailable',e)}});document.getElementById('zi-v36-date').textContent=new Intl.DateTimeFormat('ku',{year:'numeric',month:'long',day:'numeric'}).format(new Date());</script><link href="ziata-push.css" rel="stylesheet"/><link href="ziata-design.css?v=61" rel="stylesheet"/><script src="ziata-push-config.js"></script><script src="ziata-push.js"></script><script defer="" src="ziata-v55.js?v=117"></script><script defer src="ziata-v66-admin.js?v=66"></script><link rel="stylesheet" href="ziata-v66-admin.css?v=66"/><script defer="True" src="ziata-v58-dashboard.js?v=117"></script><link href="ziata-v58.css?v=61" rel="stylesheet"/><link rel="stylesheet" href="ziata-v79-my-work.css?v=79"/><script defer src="ziata-v79-my-work.js?v=80"></script><script defer src="ziata-notification-shortcut.js?v=92"></script><script>
 (function(){async function refresh(){try{const ctx=await window.ziataContext();if(!ctx.session?.user)return;const r=await window.ziataSB.rpc('ziata_my_smart_letter_notifications');if(r.error)return;const count=(r.data||[]).filter(x=>!x.is_read).length;const badge=document.getElementById('zi-smart-letter-unread');if(badge)badge.textContent=String(count);}catch(e){console.warn('Smart letter count unavailable',e)}}
 window.addEventListener('ziata-ready',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});})();
+</script><script>
+(function(){
+ async function refreshEngineerNotices(){
+  const db=window.ziataSB,box=document.getElementById('zi-engineer-notice-list'),count=document.getElementById('zi-engineer-unread');
+  if(!db||!box)return;
+  const {data,error}=await db.from('ziata_engineer_departure_notifications').select('id,request_id,title,body,is_read,created_at').order('created_at',{ascending:false}).limit(30);
+  if(error){box.textContent='ئاگەهداری نەهاتنە بارکرن';return}
+  const rows=data||[],unread=rows.filter(x=>!x.is_read).length;
+  count.textContent=String(unread);
+  box.replaceChildren();
+  if(!rows.length){box.textContent='هیچ ئاگەهداریەک نینە';return}
+  for(const n of rows){
+   const item=document.createElement('div');item.style.cssText='padding:9px;margin:6px 0;border:1px solid #dce5ef;border-radius:9px;background:'+(n.is_read?'#fff':'#eef7ff');
+   const link=document.createElement('a');link.href='engineers.html?request='+encodeURIComponent(n.request_id||'');link.style.cssText='display:block;color:#173e61;text-decoration:none';
+   const title=document.createElement('strong');title.textContent=n.title||'دەرکەفتنا ئەندازیاران';link.appendChild(title);
+   const desc=document.createElement('div');desc.textContent=n.body||'';link.appendChild(desc);
+   item.appendChild(link);
+   if(!n.is_read){const read=document.createElement('button');read.type='button';read.textContent='هاتە خوێندن';read.style.cssText='padding:5px 9px;margin-top:5px';read.onclick=async()=>{const {error:e}=await db.from('ziata_engineer_departure_notifications').update({is_read:true}).eq('id',n.id);if(!e)refreshEngineerNotices()};item.appendChild(read)}
+   box.appendChild(item);
+  }
+ }
+ window.addEventListener('ziata-ready',refreshEngineerNotices);
+ document.getElementById('zi-notice-toggle')?.addEventListener('click',()=>setTimeout(refreshEngineerNotices,0));
+})();
 </script></body></html>
