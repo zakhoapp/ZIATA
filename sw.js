@@ -27,7 +27,8 @@ function safeTarget(input) {
       const id=validId(url.searchParams.get('request'));
       return new URL(PERMITS+(id?'?request='+id:''),self.location.origin).href;
     }
-    if(path==='/ZIATA/admin.html'||path==='/ZIATA/engineers.html')return new URL(path,self.location.origin).href;
+    if(path==='/ZIATA/engineers.html'){const rid=url.searchParams.get('request');return new URL(path+(rid&&/^[0-9a-f-]{36}$/i.test(rid)?'?request='+encodeURIComponent(rid):''),self.location.origin).href;}
+    if(path==='/ZIATA/admin.html')return new URL(path,self.location.origin).href;
     return new URL(HOME,self.location.origin).href;
   }catch(_){return new URL(HOME,self.location.origin).href;}
 }
