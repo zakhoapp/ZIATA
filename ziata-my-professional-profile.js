@@ -65,7 +65,7 @@ async function fetchCatalog(){
   const {data,error}=await window.ziataSB.from(source).select('id,staff_name,employee_id,committee_type,projects_text').order('id').range(offset,offset+499);
   if(error)throw error;rows.push(...(data||[]));if(!data||data.length<500)break;
  }
- committees=unique(rows.flatMap(r=>String(r.committee_type||'').split(/\r?\n|؛|;/)));
+ committees=unique([...rows.flatMap(r=>String(r.committee_type||'').split(/\r?\n|؛|;/)), 'لیژنا دیڤچوونا پرۆژێن وەبەرهێنانێ', 'لێژنا دویفچوون و کونترولکرن و تاقیکرنا کەرەستێن بیناسازی']);
  // Query linked records directly: avoids page limits and unrelated row policies.
  const linked=await window.ziataSB.from(source).select('id,staff_name,employee_id,committee_type,projects_text').eq('employee_id',uid);
  if(linked.error)throw new Error('نەشیا تۆمارێن ب UUID گرێدای بخوینیت: '+linked.error.message);
