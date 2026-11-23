@@ -55,7 +55,7 @@ window.addEventListener('ziata-ready',refresh);document.addEventListener('visibi
   const {data,error}=await db.from('ziata_engineer_departure_notifications').select('id,request_id,title,body,is_read,created_at').order('created_at',{ascending:false}).limit(30);
   if(error){box.textContent='ئاگەهداری نەهاتنە بارکرن';return}
   const rows=data||[],unread=rows.filter(x=>!x.is_read).length;
-  count.textContent=String(unread);document.getElementById('zi-engineer-notices').hidden=rows.length===0;
+  count.textContent=String(unread);document.getElementById('zi-engineer-notices').hidden=rows.length===0;window.ziataDepartureUnread=unread;window.dispatchEvent(new Event('ziata-departure-count-changed'));
   box.replaceChildren();
   if(!rows.length){box.textContent='هیچ ئاگەهداریەک نینە';return}
   for(const n of rows){
@@ -68,7 +68,7 @@ window.addEventListener('ziata-ready',refresh);document.addEventListener('visibi
    box.appendChild(item);
   }
  }
- window.addEventListener('ziata-ready',refreshEngineerNotices);if(window.ziataSB)refreshEngineerNotices();
+ window.addEventListener('ziata-ready',refreshEngineerNotices);if(window.ziataSB)refreshEngineerNotices();document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshEngineerNotices()});setInterval(()=>{if(!document.hidden)refreshEngineerNotices()},30000);
  document.getElementById('zi-notice-toggle')?.addEventListener('click',()=>setTimeout(refreshEngineerNotices,0));
 })();
 </script></body></html>
