@@ -6,7 +6,7 @@ function setupTopBell(){
  toggle.dataset.bound='1';
  const count=()=>{const a=Number(($('zi-v58-unread')?.textContent||'').match(/[0-9]+/)?.[0]||0);
    const b=Number($('zi-v55-count')?.textContent||0);
-   const n=Math.max(0,a)+Math.max(0,b),badge=$('zi-notice-badge');
+   const d=Number(window.ziataDepartureUnread||0);const n=Math.max(0,a)+Math.max(0,b)+Math.max(0,d),badge=$('zi-notice-badge');
    if(badge){badge.textContent=n>99?'99+':String(n);badge.hidden=n===0;}
    toggle.setAttribute('aria-label',n?'ئاگەهداریان، '+n+' نەخوینـدی':'ئاگەهداریان');
  };
@@ -17,6 +17,7 @@ function setupTopBell(){
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!popup.hidden){setOpen(false);toggle.focus();}});
  const observer=new MutationObserver(count);
  for(const id of ['zi-v58-unread','zi-v55-count']){const node=$(id);if(node)observer.observe(node,{childList:true,characterData:true,subtree:true});}
+ window.addEventListener('ziata-departure-count-changed',count);
  count();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setupTopBell);
